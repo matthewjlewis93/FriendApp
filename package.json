@@ -1,0 +1,28 @@
+{
+  "name": "friendapp",
+  "version": "1.0.0",
+  "description": "a place to make friends",
+  "main": "backend/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch --env-file=.env backend/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matthewjlewis93/FriendApp.git"
+  },
+  "author": "matt lewis",
+  "type": "module",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matthewjlewis93/FriendApp/issues"
+  },
+  "homepage": "https://github.com/matthewjlewis93/FriendApp#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.13.2"
+  }
+}
