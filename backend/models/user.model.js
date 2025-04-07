@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const infoSchema = new mongoose.Schema({
+const infoSubSchema = new mongoose.Schema({
   introduction: {
     type: String,
     default: "",
@@ -12,6 +12,21 @@ const infoSchema = new mongoose.Schema({
     type: Array,
   },
 });
+
+const friendListSubSchema = new mongoose.Schema(
+  {
+    friendID: {
+      type: String,
+      required: true,
+    },
+    lastContact: {
+      type: Date,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const userSchema = new mongoose.Schema(
   {
@@ -36,8 +51,11 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
     info: {
-      type: infoSchema,
+      type: infoSubSchema,
       default: {},
+    },
+    friends: {
+      type: [friendListSubSchema],
     },
   },
   { timestamps: true }
