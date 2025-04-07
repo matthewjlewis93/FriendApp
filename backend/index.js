@@ -3,6 +3,7 @@ import { connectDB } from "./lib/db.js";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.route.js";
 import { userInfo } from "./lib/userInfoMiddleware.js";
+import messageRouter from "./routes/message.route.js";
 
 const PORT = process.env.PORT;
 const app = express();
@@ -14,7 +15,7 @@ app.use(userInfo);
 
 //routes
 app.use("/api/auth", authRouter);
-
+app.use("/api/message", messageRouter)
 
 ////
 app.listen(PORT, () => {
