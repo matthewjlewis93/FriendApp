@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 import User from "../models/user.model.js";
 import { generateToken } from "../lib/utils.js";
 
@@ -42,45 +42,45 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-    const userInfo = req.body;
-    const userSearch = await User.findOne({ email: userInfo.email });
-    if (userSearch) {
-      // login
-      bcrypt.compare(
-        userInfo.password,
-        userSearch._doc.password,
-        (err, result) => {
-          if (err) {
-            console.log("Error comparing passwords: ", err);
-            res.status(500).json({ message: err });
+  const userInfo = req.body;
+  const userSearch = await User.findOne({ email: userInfo.email });
+  if (userSearch) {
+    // login
+    bcrypt.compare(
+      userInfo.password,
+      userSearch._doc.password,
+      (err, result) => {
+        if (err) {
+          console.log("Error comparing passwords: ", err);
+          res.status(500).json({ message: err });
+        } else {
+          if (result) {
+            generateToken(userSearch._id, res);
+            res.status(200).json({
+              success: true,
+              existingUser: true,
+              id: userInfo._id,
+            });
           } else {
-            if (result) {
-              generateToken(userSearch._id, res);
-              res.status(200).json({
-                success: true,
-                existingUser: true,
-                id: userInfo._id
-              });
-            } else {
-              res.status(200).json({
-                success: false,
-                existingUser: true,
-                message: "Failed Log In",
-              });
-            }
+            res.status(200).json({
+              success: false,
+              existingUser: true,
+              message: "Failed Log In",
+            });
           }
         }
-      );
-    } else {
-      res
-        .status(200)
-        .json({
-          success: false,
-          existingUser: false,
-          message: "User not found",
-        });
-    }
+      }
+    );
+  } else {
+    res.status(200).json({
+      success: false,
+      existingUser: false,
+      message: "User not found",
+    });
+  }
+};
 
-}
-
-export const logout = async (req, res) => {}
+export const logout = async (req, res) => {
+  res.cookie("jwt", "", { httpOnly: true, expires: new Date(0) });
+  res.status(200).json({ success: true });
+};
