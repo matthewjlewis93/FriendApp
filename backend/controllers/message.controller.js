@@ -1,23 +1,32 @@
-import User from "../models/user.model.js"
-import Message from "../models/message.model.js"
+import User from "../models/user.model.js";
+import Message from "../models/message.model.js";
 
-export const getMessages = (req, res) => {
-
-}
+export const getMessages = async (req, res) => {
+    const {friendId} = req.params;
+    const { userId } = req.body;
+  try {
+    const recievedMessages = await Message.find({ toId: userId, fromId: friendId });
+    const sentMessages = await Message.find({toId: friendId, fromId: userId});
+    const messages = [...recievedMessages, ...sentMessages];
+    res.status(200).json(messages);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error getting messages" });
+  }
+};
 
 export const sendMessage = async (req, res) => {
-    const {messageContent, toID, userID} = req.body;
-    try {
-        const newMessage = new Message({messageContent, toID, fromID: userID});
-        await newMessage.save()
-        res.status(200).json({_id: newMessage._id, messageContent: newMessage.messageContent, toID: newMessage.toID, fromID: newMessage.fromID});
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({message: "Error sending message"});
-    }
+  const { messageContent, toId, userId } = req.body;
+  try {
+    const newMessage = new Message({ fromId: userId, messageContent, toId });
+    await newMessage.save();
+    res.status(200).json(newMessage);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error sending message" });
+  }
+};
 
-}
+export const editMessage = (req, res) => {};
 
-export const editMessage = (req, res) => {}
-
-export const getFriends = (req, res) => {}
+export const getFriends = (req, res) => {};

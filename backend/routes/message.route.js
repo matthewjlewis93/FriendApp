@@ -3,7 +3,7 @@ import { editMessage, getMessages, sendMessage } from "../controllers/message.co
 
 const messageRouter = express.Router();
 
-messageRouter.get("/", getMessages);
+messageRouter.get("/:friendId", getMessages);
 
 messageRouter.post("/send", sendMessage);
 

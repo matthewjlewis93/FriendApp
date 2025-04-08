@@ -11,10 +11,10 @@ const app = express();
 //middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(userInfo);
 
 //routes
 app.use("/api/auth", authRouter);
+app.use(userInfo); // Middleware excluded by auth route
 app.use("/api/message", messageRouter)
 
 ////

@@ -15,7 +15,7 @@ const infoSubSchema = new mongoose.Schema({
 
 const friendListSubSchema = new mongoose.Schema(
   {
-    friendID: {
+    friendId: {
       type: String,
       required: true,
     },

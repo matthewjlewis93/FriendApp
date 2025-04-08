@@ -6,12 +6,8 @@ const userInfo = (req, res, next) => {
 
   if (token) {
     try {
-      const decoded = jwt.verify(token, process.env.SESSIONSECRET);
-      req.body.userID = decoded.userID;
-      if (decoded.guest) {
-        req.body.expireAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
-        req.body.guest = true;
-      }
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.body.userId = decoded.userId;
       next();
     } catch (error) {
       res
