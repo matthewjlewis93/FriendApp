@@ -4,10 +4,19 @@ import Message from "../models/message.model.js";
 export const getMessages = async (req, res) => {
   const { friendId } = req.params;
   const { userId } = req.body;
+  
   try {
-    const recievedMessages = await Message.find({ toId: userId, fromId: friendId });
-    const sentMessages = await Message.find({ toId: friendId, fromId: userId });
-    const messages = [...recievedMessages, ...sentMessages].toSorted((x, y) => String(x.createdAt).localeCompare(String(y.createdAt)));
+    const recievedMessages = await Message.find({
+      toId: userId,
+      fromId: friendId,
+    });
+    const sentMessages = await Message.find({
+      toId: friendId,
+      fromId: userId,
+    });
+    const messages = [...recievedMessages, ...sentMessages].toSorted((x, y) =>
+      String(x.createdAt).localeCompare(String(y.createdAt))
+    );
     res.status(200).json(messages);
   } catch (error) {
     console.error(error);
