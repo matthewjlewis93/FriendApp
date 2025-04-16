@@ -22,6 +22,10 @@ const friendListSubSchema = new mongoose.Schema(
     lastContact: {
       type: Date,
     },
+    accepted: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
     timestamps: true,
