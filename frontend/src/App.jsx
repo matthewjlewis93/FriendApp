@@ -1,12 +1,14 @@
 // import { useState } from 'react'
 import './App.css'
+import ChatMessage from './components/ChatMessage'
 
-import ChatProfilePhoto from "./components/ChatProfilePhoto"
+// import ChatProfilePhoto from "./components/ChatProfilePhoto"
 
 function App() {
   return (
     <>
-      <ChatProfilePhoto />
+      <ChatMessage messageReceived={true} />
+      <ChatMessage messageReceived={false} messageContent="Sorry I don't speak Italian" />
     </>
   )
 }

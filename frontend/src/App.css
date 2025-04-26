@@ -1,16 +1,79 @@
-.photo:hover {
-    /* animation: rotate 2s linear 0 infinite; */
-    animation-name: rotate;
-    animation-iteration-count: infinite;
-    animation-duration: 5s;
-    animation-timing-function: linear;
+:root {
+    --page-background: #eee;
+}
+[data-theme="dark"] {
+    --page-background: #111;
+}
+
+body {
+  padding: 5px 10px;
+  background-color: var(--page-background);
+}
+
+.profile-photo {
+  position: absolute;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  z-index: 0;
+  top: 0;
+  border: 2px solid #ffffff00;
+  object-fit: cover;
+}
+
+.photo-container:hover {
+  animation-name: rotate;
+  animation-iteration-count: infinite;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+}
+
+.chat-message {
+  text-align: justify;
+  margin: 8px 0;
+  max-width: 60%;
+  width: fit-content;
+  padding: 10px 15px;
+  position: relative;
+  border-radius: 8px;
+    font-size: small;
+}
+
+.received-chat {
+  background-color: lightblue;
+}
+
+.received-chat::after {
+  content: " ";
+  position: absolute;
+  top: calc(100% - 15px);
+  right: 100%;
+  margin-top: -5px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent lightblue transparent transparent;
+}
+
+.sent-chat {
+  background-color: lightcoral;
+  margin: 8px 0px 0px auto;
+}
+.sent-chat::after {
+  content: " ";
+  position: absolute;
+  top: calc(100% - 15px);
+  left: 100%;
+  margin-top: -5px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent transparent lightcoral;
 }
 
 @keyframes rotate {
-    from {
-        transform: rotate(0turn);
-    }
-    to {
-        transform: rotate(1turn);
-    }
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
 }
