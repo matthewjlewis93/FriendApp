@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <ChatMessage messageReceived={true} />
-      <ChatMessage messageReceived={false} messageContent="Sorry I don't speak Italian" />
+      <ChatMessage messageReceived={false} messageContent="Sorry, I don't speak Italian" />
     </>
   )
 }
