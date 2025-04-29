@@ -15,8 +15,9 @@ export default function ChatMessage({
         }}
       >
         {messageContent}
+        <div><p className="message-time">{timeSent}</p></div>
       </p>
-      <p className="message-time">{timeSent}</p>
+      {/* <p className="message-time">{timeSent}</p> */}
     </div>
   );
 }
