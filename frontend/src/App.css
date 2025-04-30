@@ -1,8 +1,8 @@
 :root {
-    --page-background: #eee;
+  --page-background: #eee;
 }
 [data-theme="dark"] {
-    --page-background: #111;
+  --page-background: #111;
 }
 
 body {
@@ -29,21 +29,17 @@ body {
 }
 
 .chat-div {
-  width: 100%;
-  /* display: flex; */
-  /* align-items: center; */
-  /* justify-content: space-between; */
   margin-bottom: 8px;
-}
-
-.chat-message {
-  text-align: justify;
   max-width: 65%;
   width: fit-content;
   padding: 10px 15px;
   position: relative;
   border-radius: 8px;
   font-size: small;
+}
+
+.chat-message {
+  text-align: justify;
 }
 
 .received-chat {
@@ -80,10 +76,10 @@ body {
 
 .message-time {
   font-size: x-small;
-  color: #000000dd;
+  /* color: #000000dd; */
+  color: #222;
   margin: 4px 0px 0px 0px;
   text-align: right;
-
 }
 
 @keyframes rotate {
