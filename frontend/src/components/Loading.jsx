@@ -1,10 +1,17 @@
 export default function Loading() {
   return (
     <div
-    style={{position: "fixed",
-        top: "40vh",
-        left: 'calc(50vw - 85px)'
-    }}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        width: "100svw",
+        height: "100svh",
+        backgroundColor: "#00000055",
+        position: "fixed",
+        top: "0",
+        right: "0",
+        zIndex: "10"
+      }}
     >
       <div className="loading-balls" id="loading-ball-1"></div>
       <div className="loading-balls" id="loading-ball-2"></div>

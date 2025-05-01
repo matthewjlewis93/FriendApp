@@ -11,23 +11,27 @@ body {
 }
 
 .loading-balls {
+  margin-top: 30svh;
+  background-color: lightblue;
+  border: 6px solid lightcoral;
   height: 50px;
   width: 50px;
   border-radius: 50%;
   display: inline-block;
   margin-right: 10px;
   position: relative;
-  bottom: 10px;
+  bottom: 0px;
   animation-name: loading;
   animation-iteration-count: infinite;
-  animation-duration: 2s;
-  /* animation-timing-function: linear; */
+  animation-duration: 3s;
 }
 #loading-ball-2 {
   animation-delay: 250ms;
+  animation-delay: 500ms;
 }
 #loading-ball-3 {
   animation-delay: 500ms;
+  animation-delay: 1s;
 }
 
 
@@ -116,13 +120,16 @@ body {
   0% {
     bottom: 0px;
     background-color: lightblue;
+    border: 6px solid lightcoral;
   }
   50% {
-    bottom: 15px;
+    bottom: 25px;
     background-color: lightcoral;
+    border: 6px solid lightblue;
   }
   100% {
     bottom: 0px;
     background-color: lightblue;
+    border: 6px solid lightcoral
   }
 }
