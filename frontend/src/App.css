@@ -10,6 +10,27 @@ body {
   background-color: var(--page-background);
 }
 
+.loading-balls {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+  position: relative;
+  bottom: 10px;
+  animation-name: loading;
+  animation-iteration-count: infinite;
+  animation-duration: 2s;
+  /* animation-timing-function: linear; */
+}
+#loading-ball-2 {
+  animation-delay: 250ms;
+}
+#loading-ball-3 {
+  animation-delay: 500ms;
+}
+
+
 .profile-photo {
   position: absolute;
   height: 60px;
@@ -88,5 +109,20 @@ body {
   }
   to {
     transform: rotate(1turn);
+  }
+}
+
+@keyframes loading {
+  0% {
+    bottom: 0px;
+    background-color: lightblue;
+  }
+  50% {
+    bottom: 15px;
+    background-color: lightcoral;
+  }
+  100% {
+    bottom: 0px;
+    background-color: lightblue;
   }
 }

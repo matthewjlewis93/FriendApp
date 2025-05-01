@@ -2,6 +2,7 @@
 import "./App.css";
 import ChatMessage from "./components/ChatMessage";
 import ChatTextBar from "./components/ChatTextBar";
+import Loading from "./components/Loading";
 
 // import ChatProfilePhoto from "./components/ChatProfilePhoto"
 
@@ -22,6 +23,7 @@ function App() {
             messageContent="Sorry, I don't speak Italian"
           />
         </div>
+        <Loading />
         <ChatTextBar />
       </div>
     </>
