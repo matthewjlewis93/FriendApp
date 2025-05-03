@@ -13,18 +13,19 @@ function App() {
         style={{
           display: "flex",
           flexDirection: "column",
-          height: "calc(100svh - 26px)",
+          // height: "calc(100svh - 20px)"
         }}
       >
-        <div style={{ flexGrow: "1" }}>
+        <div id="chat-log">
           <ChatMessage messageReceived={true} />
           <ChatMessage
+            id="last"
             messageReceived={false}
             messageContent="Sorry, I don't speak Italian"
           />
         </div>
-        <Loading />
-        <ChatTextBar />
+        {/* <Loading /> */}
+        {/* <ChatTextBar /> */}
       </div>
     </>
   );

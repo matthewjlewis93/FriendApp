@@ -1,21 +1,26 @@
 :root {
-  --page-background: #eee;
+  --page-background: #f2f4f4;
+  --received-message: #aed6f1;
+  --sent-message: #ec7063;
+
+  /* --received-message: lightblue; */
+  /* --sent-message: lightcoral; */
 }
 [data-theme="dark"] {
   --page-background: #111;
 }
 
 body {
-  padding: 5px 10px;
+  margin: 5px 10px;
   background-color: var(--page-background);
 }
 
 .loading-balls {
   margin-top: 30svh;
-  background-color: lightblue;
-  border: 6px solid lightcoral;
-  height: 50px;
-  width: 50px;
+  background-color: var(--received-message);
+  border: 3vw solid var(--sent-message);
+  height: 10vw;
+  width: 10vw;
   border-radius: 50%;
   display: inline-block;
   margin-right: 10px;
@@ -26,14 +31,11 @@ body {
   animation-duration: 3s;
 }
 #loading-ball-2 {
-  animation-delay: 250ms;
   animation-delay: 500ms;
 }
 #loading-ball-3 {
-  animation-delay: 500ms;
   animation-delay: 1s;
 }
-
 
 .profile-photo {
   position: absolute;
@@ -53,6 +55,12 @@ body {
   animation-timing-function: linear;
 }
 
+#chat-log {
+  overflow-y: auto;
+  padding: 0px 11px 30px 11px;
+  flex-grow: 1;
+}
+
 .chat-div {
   margin-bottom: 8px;
   max-width: 65%;
@@ -68,8 +76,9 @@ body {
 }
 
 .received-chat {
-  background-color: lightblue;
+  background-color: var(--received-message);
   justify-content: right;
+  box-shadow: -2px 2px 5px #00000033;
 }
 
 .received-chat::after {
@@ -80,13 +89,14 @@ body {
   margin-top: -5px;
   border-width: 6px;
   border-style: solid;
-  border-color: transparent lightblue transparent transparent;
+  border-color: transparent var(--received-message) transparent transparent;
 }
 
 .sent-chat {
-  background-color: lightcoral;
+  background-color: var(--sent-message);
   margin: 8px 0px 0px auto;
   justify-self: right;
+  box-shadow: 2px 2px 5px #00000033;
 }
 .sent-chat::after {
   content: " ";
@@ -96,12 +106,11 @@ body {
   margin-top: -5px;
   border-width: 6px;
   border-style: solid;
-  border-color: transparent transparent transparent lightcoral;
+  border-color: transparent transparent transparent var(--sent-message);
 }
 
 .message-time {
   font-size: x-small;
-  /* color: #000000dd; */
   color: #222;
   margin: 4px 0px 0px 0px;
   text-align: right;
@@ -119,17 +128,17 @@ body {
 @keyframes loading {
   0% {
     bottom: 0px;
-    background-color: lightblue;
-    border: 6px solid lightcoral;
+    background-color: var(--received-message);
+    border: 3vw solid var(--sent-message);
   }
   50% {
     bottom: 25px;
-    background-color: lightcoral;
-    border: 6px solid lightblue;
+    background-color: var(--sent-message);
+    border: 3vw solid var(--received-message);
   }
   100% {
     bottom: 0px;
-    background-color: lightblue;
-    border: 6px solid lightcoral
+    background-color: var(--received-message);
+    border: 3vw solid var(--sent-message)
   }
 }

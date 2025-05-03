@@ -5,12 +5,12 @@ export default function Loading() {
         display: "flex",
         justifyContent: "center",
         width: "100svw",
-        height: "100svh",
+        height: "200svh",
         backgroundColor: "#00000055",
         position: "fixed",
         top: "0",
         right: "0",
-        zIndex: "10"
+        zIndex: "10",
       }}
     >
       <div className="loading-balls" id="loading-ball-1"></div>
