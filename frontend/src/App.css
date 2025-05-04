@@ -1,10 +1,8 @@
 :root {
+  font-size: normal;
   --page-background: #f2f4f4;
   --received-message: #aed6f1;
-  --sent-message: #ec7063;
-
-  /* --received-message: lightblue; */
-  /* --sent-message: lightcoral; */
+  --sent-message: #f1948a;
 }
 [data-theme="dark"] {
   --page-background: #111;
@@ -13,6 +11,7 @@
 body {
   margin: 5px 10px;
   background-color: var(--page-background);
+  overflow-x: hidden;
 }
 
 .loading-balls {
@@ -56,8 +55,8 @@ body {
 }
 
 #chat-log {
-  overflow-y: auto;
-  padding: 0px 11px 30px 11px;
+  overflow: hidden auto;
+  padding: 0px 12px 30px 12px;
   flex-grow: 1;
 }
 
@@ -65,10 +64,10 @@ body {
   margin-bottom: 8px;
   max-width: 65%;
   width: fit-content;
-  padding: 10px 15px;
+  padding: 10px 15px 5px 15px;
   position: relative;
   border-radius: 8px;
-  font-size: small;
+  font-size: 1rem;
 }
 
 .chat-message {
@@ -84,10 +83,10 @@ body {
 .received-chat::after {
   content: " ";
   position: absolute;
-  top: calc(100% - 14px);
+  top: calc(100% - 18px);
   right: calc(100% - 1px);
   margin-top: -5px;
-  border-width: 6px;
+  border-width: 8px;
   border-style: solid;
   border-color: transparent var(--received-message) transparent transparent;
 }
@@ -101,16 +100,16 @@ body {
 .sent-chat::after {
   content: " ";
   position: absolute;
-  top: calc(100% - 14px);
+  top: calc(100% - 18px);
   left: calc(100% - 1px);
   margin-top: -5px;
-  border-width: 6px;
+  border-width: 8px;
   border-style: solid;
   border-color: transparent transparent transparent var(--sent-message);
 }
 
 .message-time {
-  font-size: x-small;
+  font-size: .75rem;
   color: #222;
   margin: 4px 0px 0px 0px;
   text-align: right;
@@ -140,5 +139,11 @@ body {
     bottom: 0px;
     background-color: var(--received-message);
     border: 3vw solid var(--sent-message)
+  }
+}
+
+@media (min-width: 1000px) {
+  :root {
+    font-size: x-large;
   }
 }
