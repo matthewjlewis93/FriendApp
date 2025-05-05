@@ -1,5 +1,6 @@
 import ChatMessage from "../ChatMessage";
 import ChatTextBar from "../ChatTextBar";
+import Loading from "../Loading";
 
 
 export default function Chat () {
@@ -19,7 +20,6 @@ export default function Chat () {
             messageContent="Sorry, I don't speak Italian"
           />
         </div>
-        {/* <Loading /> */}
         <ChatTextBar />
       </div>
     );

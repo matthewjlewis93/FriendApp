@@ -10,6 +10,7 @@ export default function ChatTextBar() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-evenly",
+        backgroundColor: "var(--page-background)"
       }}
     >
       <textarea
