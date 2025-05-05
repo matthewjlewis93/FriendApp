@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import ChatMessage from "../ChatMessage";
 import ChatTextBar from "../ChatTextBar";
 import Loading from "../Loading";
 
 
 export default function Chat () {
+  useEffect(() => {document.body.style.backgroundColor = "var(--chat-background)"},[])
     return (
       <div
         style={{

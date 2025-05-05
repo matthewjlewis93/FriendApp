@@ -1,11 +1,13 @@
 :root {
-  font-size: normal;
-  --page-background: #f2f4f4;
+  font-size: medium ;
+  --chat-background: #f2f4f4;
   --received-message: #aed6f1;
   --sent-message: #f1948a;
+  --login-background: #ebf5fb;
+  --registration-background: #fdedec;
 }
 [data-theme="dark"] {
-  --page-background: #111;
+  --chat-background: #111;
 }
 
 html {
@@ -16,8 +18,9 @@ html {
 
 body {
   flex-grow: 1;
-  margin: 5px 10px;
-  background-color: var(--page-background);
+  margin: 0px;
+  padding: 5px 10px;
+  background-color: var(--chat-background);
   overflow-x: hidden;
 }
 #root {
@@ -90,11 +93,11 @@ form {
   display: flex;
   flex-direction: column;
   height: 100%;
-  
+  /* margin: 10px 15px; */
 }
 
 #login {
-  background-color: #ebf5fb;
+  /* background-color: #ebf5fb; */
   flex-grow: 1;
   color: #21618c;
 }
@@ -103,7 +106,7 @@ form {
 }
 
 #register {
-  background-color: #fdedec;
+  /* background-color: #fdedec; */
   flex-grow: 1;
   color: #943126;
 }

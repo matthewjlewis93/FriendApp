@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Login() {
+
   const [loginSelected, setLoginSelected] = useState(true);
-  
+  useEffect(() => {loginSelected ? document.body.style.backgroundColor = "var(--login-background)" : document.body.style.backgroundColor = "var(--registration-background)"}, [loginSelected]);
+
     return (
       <div id="login-page">
         <div id="login-tabs" style={{ display: "flex" }}>
