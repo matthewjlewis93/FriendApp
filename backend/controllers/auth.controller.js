@@ -43,7 +43,7 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   const userInfo = req.body;
-  const userSearch = await User.findOne({ email: userInfo.email });
+  const userSearch = await User.findOne({ username: userInfo.username });
   if (userSearch) {
     // login
     bcrypt.compare(
@@ -62,7 +62,7 @@ export const login = async (req, res) => {
               id: userInfo._id,
             });
           } else {
-            res.status(200).json({
+            res.status(500).json({
               success: false,
               existingUser: true,
               message: "Failed Log In",
@@ -72,7 +72,7 @@ export const login = async (req, res) => {
       }
     );
   } else {
-    res.status(200).json({
+    res.status(400).json({
       success: false,
       existingUser: false,
       message: "User not found",

@@ -3,7 +3,22 @@ import { useEffect, useState } from "react";
 export default function Login() {
 
   const [loginSelected, setLoginSelected] = useState(true);
-  useEffect(() => {loginSelected ? document.body.style.backgroundColor = "var(--login-background)" : document.body.style.backgroundColor = "var(--registration-background)"}, [loginSelected]);
+  // useEffect(() => {loginSelected ? document.body.style.backgroundColor = "var(--login-background)" : document.body.style.backgroundColor = "var(--registration-background)"}, [loginSelected]);
+  const submitLogin = async (e) => {
+    e.preventDefault();
+    let res = await fetch('/api/auth/login', {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        username: e.target.form[0].value,
+        password: e.target.form[1].value
+      })
+    });
+    res = await res.json()
+    if (res.success)
+      {}else{}
+
+  }
 
     return (
       <div id="login-page">
@@ -27,16 +42,16 @@ export default function Login() {
           <form id="login">
             <label>
               Username: <br />
-              <input />
+              <input type="text" style={{ outlineColor: "#2874a6" }} />
             </label>
             <br />
             <label>
               Password: <br />
-              <input />
+              <input type="password" style={{ outlineColor: "#2874a6" }} />
             </label>
             <br />
             <br />
-            <button>Login</button>
+            <button onClick={(e) => submitLogin(e)}>Login</button>
           </form>
         ) : (
           <form id="register">

@@ -3,8 +3,8 @@
   --chat-background: #f2f4f4;
   --received-message: #aed6f1;
   --sent-message: #f1948a;
-  --login-background: #ebf5fb;
-  --registration-background: #fdedec;
+  --login-background: #f2f4f4;
+  --registration-background: #f2f4f4;
 }
 [data-theme="dark"] {
   --chat-background: #111;
@@ -79,6 +79,9 @@ body {
 
 input {
   font-size: 1.2rem;
+}
+input:focus {
+
 }
 
 form {
