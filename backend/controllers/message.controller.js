@@ -4,7 +4,6 @@ import Message from "../models/message.model.js";
 export const getMessages = async (req, res) => {
   const { friendId } = req.params;
   const { userId } = req.body;
-  console.log('get messages')
 
   try {
     const recievedMessages = await Message.find({

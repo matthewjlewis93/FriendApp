@@ -57,13 +57,13 @@ export default function Login() {
           </label>
           <br />
           <br />
-          <button onClick={(e) => submitLogin(e)}>Login</button>
+          <button className="login-button" onClick={(e) => submitLogin(e)}>Login</button>
         </form>
       ) : (
         <form id="register">
           <label>
             Email: <br />
-            <input />
+            <input type="email" />
           </label>
           <br />
           <label>
@@ -78,10 +78,10 @@ export default function Login() {
           <br />
           <label>
             Password: <br />
-            <input />
+            <input type="password" />
           </label>
           <br />
-          <button onClick={(e) => {submitRegistration(e)}}>Register</button>
+          <button className="login-button" onClick={(e) => {submitRegistration(e)}}>Register</button>
         </form>
       )}
     </div>

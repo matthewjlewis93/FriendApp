@@ -3,13 +3,10 @@ import jwt from "jsonwebtoken";
 const userInfo = (req, res, next) => {
   let token;
   token = req.cookies.jwt;
-  console.log(Boolean(req.body))
   if (!req.body) req.body = {}
-  // console.log(req.body);
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(decoded);
       req.body.userId = decoded.userId;
       next();
     } catch (error) {

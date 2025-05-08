@@ -1,6 +1,19 @@
-export default function ChatTextBar({ chatReceipientId = "67f456d798f3888cdf8f7a75" }) {
+import { useState } from "react";
 
+export default function ChatTextBar({
+  chatReceipientId = "67f456d798f3888cdf8f7a75",
+}) {
+  const [messageContent, setMessageContent] = useState("");
 
+  const sendChat = async (e) => {
+    e.preventDefault();
+    let res = await fetch("/api/message/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ toId: chatReceipientId, messageContent }),
+    });
+    res = await res.json();
+  };
 
   return (
     <form
@@ -18,6 +31,8 @@ export default function ChatTextBar({ chatReceipientId = "67f456d798f3888cdf8f7a
       }}
     >
       <textarea
+        onChange={(e) => setMessageContent(e.target.value)}
+        value={messageContent}
         style={{
           flexGrow: 1,
           margin: "10px 15px",
@@ -39,7 +54,7 @@ export default function ChatTextBar({ chatReceipientId = "67f456d798f3888cdf8f7a
           borderRadius: "5px",
           padding: "3px 9px",
         }}
-        onClick={(e) => e.preventDefault()}
+        onClick={(e) => sendChat(e)}
       >
         Send
       </button>
