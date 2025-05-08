@@ -1,13 +1,14 @@
 :root {
-  font-size: medium ;
-  --chat-background: #f2f4f4;
+  font-size: medium;
+  --chat-background: #fef9e7;
+  /* --chat-background: white; */
   --received-message: #aed6f1;
   --sent-message: #f1948a;
   --login-background: #f2f4f4;
   --registration-background: #f2f4f4;
 }
 [data-theme="dark"] {
-  --chat-background: #111;
+  --chat-background: #212f3c;
 }
 
 html {
@@ -81,10 +82,9 @@ input {
   font-size: 1.2rem;
 }
 input:focus {
-
 }
 
-form {
+#login-page form {
   font-size: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -102,10 +102,11 @@ form {
 #login {
   /* background-color: #ebf5fb; */
   flex-grow: 1;
-  color: #21618c;
+  color: #1b4f72;
 }
 #login input {
   color: #3498db;
+  outline-color: #2874a6;
 }
 
 #register {
@@ -115,12 +116,14 @@ form {
 }
 #register input {
   color: #e74c3c;
+  outline-color: #b03a2e;
 }
 
 #chat-log {
   overflow: hidden auto;
-  padding: 0px 12px 2rem 12px;
+  padding: 0px 12px 3rem 12px;
   flex-grow: 1;
+  align-content: end;
 }
 
 .chat-div {
@@ -172,13 +175,11 @@ form {
 }
 
 .message-time {
-  font-size: .75rem;
+  font-size: 0.75rem;
   color: #222;
   margin: 4px 0px 0px 0px;
   text-align: right;
 }
-
-
 
 @keyframes rotate {
   from {
@@ -203,11 +204,11 @@ form {
   100% {
     bottom: 0px;
     background-color: var(--received-message);
-    border: 3vw solid var(--sent-message)
+    border: 3vw solid var(--sent-message);
   }
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 750px) {
   :root {
     font-size: x-large;
   }

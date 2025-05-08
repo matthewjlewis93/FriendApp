@@ -1,6 +1,9 @@
-export default function ChatTextBar() {
+export default function ChatTextBar({ chatReceipientId = "67f456d798f3888cdf8f7a75" }) {
+
+
+
   return (
-    <div
+    <form
       style={{
         height: "fit-content",
         width: "100svw",
@@ -10,7 +13,8 @@ export default function ChatTextBar() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-evenly",
-        backgroundColor: "var(--page-background)"
+        backgroundColor: "var(--chat-background)",
+        borderTop: "2px solid #34495e",
       }}
     >
       <textarea
@@ -33,12 +37,12 @@ export default function ChatTextBar() {
           backgroundColor: "#f9e79f",
           border: "1px solid",
           borderRadius: "5px",
-          padding: "3px 9px"
+          padding: "3px 9px",
         }}
         onClick={(e) => e.preventDefault()}
       >
         Send
       </button>
-    </div>
+    </form>
   );
 }
