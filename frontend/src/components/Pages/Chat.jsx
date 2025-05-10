@@ -49,15 +49,6 @@ export default function Chat(
       }}
     >
       <div id="chat-log">
-
-      {/* {Object.keys(chatLog).forEach((date, i) => {
-        document
-          .getElementById("chat-log")
-          .prepend(<DateDivider dateString={date} />);
-      })} */}
-
-
-
         {Object.keys(chatLog).map((date, i) => (
           <div key={date} style={{display: "flex", flexDirection: "column-reverse"}}>
             

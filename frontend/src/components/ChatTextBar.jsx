@@ -11,18 +11,16 @@ export default function ChatTextBar({ chatReceipientId }) {
       body: JSON.stringify({ toId: chatReceipientId, messageContent }),
     });
     res = await res.json();
-    setMessageContent('');
+    setMessageContent("");
   };
 
   const checkForScroll = () => {
-    if (
-      document.getElementById("chat-log").offsetHeight +
-      document.getElementById("chat-log").scrollTop -
-      document.getElementById("chat-log").scrollHeight >= -50
-    ) {
-      setTimeout(() => {document
-        .getElementById("chat-log")
-        .scrollTo(0, document.getElementById("chat-log").scrollHeight)}, 100)
+    if (document.getElementById("chat-log").scrollTop >= -50) {
+      setTimeout(() => {
+        document
+          .getElementById("chat-log")
+          .scrollTo(0, document.getElementById("chat-log").scrollHeight);
+      }, 100);
     }
   };
   return (
