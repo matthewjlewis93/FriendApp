@@ -3,9 +3,9 @@ import { addFriend, deleteProfile, editProfile, getFriendsList, getFullProfile, 
 
 const profileRouter = express.Router();
 
-profileRouter.get("/:profileId", getFullProfile);
+profileRouter.get("/", getFullProfile);
 
-profileRouter.get("/friends/:profileId", getFriendsList);
+profileRouter.get("/friends/", getFriendsList);
 
 profileRouter.patch("/add/:profileId", addFriend);
 

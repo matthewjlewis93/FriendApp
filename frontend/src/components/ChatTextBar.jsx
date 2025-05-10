@@ -1,8 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function ChatTextBar({
-  chatReceipientId = "67f456d798f3888cdf8f7a75",
-}) {
+export default function ChatTextBar({ chatReceipientId }) {
   const [messageContent, setMessageContent] = useState("");
 
   const sendChat = async (e) => {
@@ -13,25 +11,37 @@ export default function ChatTextBar({
       body: JSON.stringify({ toId: chatReceipientId, messageContent }),
     });
     res = await res.json();
+    setMessageContent('');
   };
 
+  const checkForScroll = () => {
+    if (
+      document.getElementById("chat-log").offsetHeight +
+      document.getElementById("chat-log").scrollTop -
+      document.getElementById("chat-log").scrollHeight >= -50
+    ) {
+      setTimeout(() => {document
+        .getElementById("chat-log")
+        .scrollTo(0, document.getElementById("chat-log").scrollHeight)}, 100)
+    }
+  };
   return (
     <form
+      id="chat-input-container"
       style={{
         height: "fit-content",
-        width: "100svw",
-        position: "fixed",
-        bottom: "0px",
-        left: "0px",
+        flexShrink: 1,
         display: "flex",
         alignItems: "center",
         justifyContent: "space-evenly",
         backgroundColor: "var(--chat-background)",
         borderTop: "2px solid #34495e",
+        margin: "0 -10px",
       }}
     >
       <textarea
         onChange={(e) => setMessageContent(e.target.value)}
+        onClick={checkForScroll}
         value={messageContent}
         style={{
           flexGrow: 1,

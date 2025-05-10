@@ -12,12 +12,12 @@ export const getFullProfile = async (req, res) => {
 };
 
 export const getFriendsList = async (req, res) => {
-  const { profileId } = req.params;
+  // const { profileId } = req.params;
   const {userId} = req.body;
   try {
-    const profile = User.findById(profileId);
+    const profile = await User.findById(userId);
     const friendList = profile.friends;
-    res.status(200).json({ data: friendList });
+    res.status(200).json({ data: [...friendList] });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error getting friends list" });

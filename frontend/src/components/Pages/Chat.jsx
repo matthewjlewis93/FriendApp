@@ -4,27 +4,41 @@ import ChatTextBar from "../ChatTextBar";
 import DateDivider from "../DateDivider";
 import Loading from "../Loading";
 
-export default function Chat({
-  // userId = "67f456bc98f3888cdf8f7a71",
-  // receipientId = "67f456d798f3888cdf8f7a75",
-  receipientId = "67f456bc98f3888cdf8f7a71",
-}) {
+export default function Chat(
+  {
+    // userId = "67f456bc98f3888cdf8f7a71",
+    // receipientId = "67f456d798f3888cdf8f7a75",
+    // receipientId = "67f456bc98f3888cdf8f7a71",
+  }
+) {
+  const [friendList, setFriendList] = useState([]);
   const [chatLog, setChatLog] = useState([]);
+  const [receipientId, setReceipientId] = useState("");
 
-  const fetchMessages = async () => {
-    let res = await fetch("/api/message/" + receipientId);
-    res = await res.json();
-    res.sort((x, y) => String(x.createdAt).localeCompare(String(y.createdAt)));
-    const chatByDate = Object.groupBy(res, ({ createdAt }) =>
-      new Date(createdAt).toLocaleDateString()
-    );
-    setChatLog(chatByDate);
-    // console.dir(res);
+  const fetchMessages = async (id) => {
+    if (id !== "") {
+      let res = await fetch("/api/message/" + id);
+      res = await res.json();
+      res.sort((y, x) =>
+        String(x.createdAt).localeCompare(String(y.createdAt))
+      );
+      const chatByDate = Object.groupBy(res, ({ createdAt }) =>
+        new Date(createdAt).toLocaleDateString()
+      );
+      setChatLog(chatByDate);
+    }
   };
 
-  useEffect(() => fetchMessages, []);
+  const fetchFriends = async () => {
+    let res = await fetch("/api/profile/friends/");
+    res = await res.json();
+    setFriendList(res.data);
+    setReceipientId(res.data[0].friendId);
+    fetchMessages(res.data[0].friendId);
+  };
 
-  // useEffect(() => {document.body.style.backgroundColor = "var(--chat-background)"},[])
+  useEffect(() => fetchFriends, []);
+
   return (
     <div
       style={{
@@ -35,8 +49,17 @@ export default function Chat({
       }}
     >
       <div id="chat-log">
+
+      {/* {Object.keys(chatLog).forEach((date, i) => {
+        document
+          .getElementById("chat-log")
+          .prepend(<DateDivider dateString={date} />);
+      })} */}
+
+
+
         {Object.keys(chatLog).map((date, i) => (
-          <>
+          <div key={date}>
             <DateDivider dateString={date} />
             {chatLog[date].map((message) => (
               <ChatMessage
@@ -50,10 +73,10 @@ export default function Chat({
                 messageContent={message.messageContent}
               />
             ))}
-          </>
+          </div>
         ))}
       </div>
-      <ChatTextBar />
+      <ChatTextBar chatReceipientId={receipientId} />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 :root {
   font-size: medium;
+  /* font-size: large; */
   --chat-background: #fef9e7;
   /* --chat-background: white; */
   --received-message: #aed6f1;
@@ -121,9 +122,11 @@ input:focus {
 
 #chat-log {
   overflow: hidden auto;
-  padding: 0px 12px 3rem 12px;
+  padding: 0px 12px 0rem 12px;
   flex-grow: 1;
   align-content: end;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .chat-div {

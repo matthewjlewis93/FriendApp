@@ -1,4 +1,3 @@
-// import { useState } from 'react'
 import "./App.css";
 import Chat from "./components/Pages/Chat";
 import Login from "./components/Pages/Login";
