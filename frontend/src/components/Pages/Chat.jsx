@@ -59,8 +59,8 @@ export default function Chat(
 
 
         {Object.keys(chatLog).map((date, i) => (
-          <div key={date}>
-            <DateDivider dateString={date} />
+          <div key={date} style={{display: "flex", flexDirection: "column-reverse"}}>
+            
             {chatLog[date].map((message) => (
               <ChatMessage
                 key={message._id}
@@ -72,7 +72,7 @@ export default function Chat(
                 })}
                 messageContent={message.messageContent}
               />
-            ))}
+            ))}<DateDivider dateString={date} />
           </div>
         ))}
       </div>

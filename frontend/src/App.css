@@ -162,6 +162,7 @@ input:focus {
 
 .sent-chat {
   background-color: var(--sent-message);
+  align-self: flex-end;
   /* margin: 8px 0px 0px auto; */
   justify-self: right;
   box-shadow: 2px 2px 5px #00000033;
