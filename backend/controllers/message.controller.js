@@ -17,7 +17,7 @@ export const getMessages = async (req, res) => {
     const messages = [...recievedMessages, ...sentMessages].toSorted((x, y) =>
       String(x.createdAt).localeCompare(String(y.createdAt))
     );
-    res.status(200).json(messages);
+    res.status(200).json({ success: true, messages});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error getting messages" });

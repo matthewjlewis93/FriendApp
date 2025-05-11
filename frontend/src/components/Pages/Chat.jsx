@@ -3,28 +3,27 @@ import ChatMessage from "../ChatMessage";
 import ChatTextBar from "../ChatTextBar";
 import DateDivider from "../DateDivider";
 import Loading from "../Loading";
+import LoadingChat from "../LoadingChat";
 
-export default function Chat(
-  {
-    // userId = "67f456bc98f3888cdf8f7a71",
-    // receipientId = "67f456d798f3888cdf8f7a75",
-    // receipientId = "67f456bc98f3888cdf8f7a71",
-  }
-) {
+export default function Chat({ setLogState }) {
   const [friendList, setFriendList] = useState([]);
   const [chatLog, setChatLog] = useState([]);
   const [receipientId, setReceipientId] = useState("");
+  const [loadingMessages, setLoadingMessages] = useState(true);
 
   const fetchMessages = async (id) => {
     if (id !== "") {
       let res = await fetch("/api/message/" + id);
       res = await res.json();
-      res.sort((y, x) =>
+      //if success ...
+      const messages = res.messages;
+      messages.sort((y, x) =>
         String(x.createdAt).localeCompare(String(y.createdAt))
       );
-      const chatByDate = Object.groupBy(res, ({ createdAt }) =>
+      const chatByDate = Object.groupBy(messages, ({ createdAt }) =>
         new Date(createdAt).toLocaleDateString()
       );
+      setLoadingMessages(false);
       setChatLog(chatByDate);
     }
   };
@@ -35,6 +34,14 @@ export default function Chat(
     setFriendList(res.data);
     setReceipientId(res.data[0].friendId);
     fetchMessages(res.data[0].friendId);
+  };
+
+  const sendLogout = async () => {
+    let res = await fetch("/api/auth/logout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    setLogState({ loading: false, loggedIn: false });
   };
 
   useEffect(() => fetchFriends, []);
@@ -48,10 +55,16 @@ export default function Chat(
         // height: "calc(100svh - 20px)"
       }}
     >
+      <div>
+        <button onClick={sendLogout}>Logout</button>
+      </div>
       <div id="chat-log">
+        {loadingMessages && <LoadingChat />}
         {Object.keys(chatLog).map((date, i) => (
-          <div key={date} style={{display: "flex", flexDirection: "column-reverse"}}>
-            
+          <div
+            key={date}
+            style={{ display: "flex", flexDirection: "column-reverse" }}
+          >
             {chatLog[date].map((message) => (
               <ChatMessage
                 key={message._id}
@@ -63,7 +76,8 @@ export default function Chat(
                 })}
                 messageContent={message.messageContent}
               />
-            ))}<DateDivider dateString={date} />
+            ))}
+            <DateDivider dateString={date} />
           </div>
         ))}
       </div>

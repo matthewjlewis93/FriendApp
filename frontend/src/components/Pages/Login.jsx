@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 
-export default function Login() {
+export default function Login (
+  {setLogState}
+) {
   const [loginSelected, setLoginSelected] = useState(true);
-  // useEffect(() => {loginSelected ? document.body.style.backgroundColor = "var(--login-background)" : document.body.style.backgroundColor = "var(--registration-background)"}, [loginSelected]);
   const submitLogin = async (e) => {
     e.preventDefault();
+    setLogState({loading: true, loggedIn: false})
     let res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -17,10 +19,13 @@ export default function Login() {
     e.target.form[0].value = "";
     e.target.form[1].value = "";
     if (res.success) {
-      // go to chat
+      setLogState({loading: false, loggedIn: true})
     } else {
+      setLogState({ loading: false, loggedIn: false });
     }
   };
+
+  useEffect(() => setLogState({loading: false, loggedIn: false}), [])
 
   const submitRegistration = (e) => {
     e.preventDefault()

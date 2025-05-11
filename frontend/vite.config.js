@@ -9,7 +9,7 @@ export default defineConfig({
     proxy: {
       "/api": {
         // target: "http://localhost:8001",
-        target: "https://62fqwrqs-8001.usw3.devtunnels.ms/",
+        target: "https://0jc2qnnc-8001.usw3.devtunnels.ms",
         changeOrigin: true,
       },
     },

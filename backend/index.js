@@ -5,9 +5,9 @@ import { userInfo } from "./lib/userInfoMiddleware.js";
 import authRouter from "./routes/auth.route.js";
 import messageRouter from "./routes/message.route.js";
 import profileRouter from "./routes/profile.route.js";
+import { app, server } from "./lib/socket.js";
 
 const PORT = process.env.PORT;
-const app = express();
 
 //middleware
 app.use(express.json());
@@ -20,7 +20,7 @@ app.use("/api/message", messageRouter);
 app.use("/api/profile", profileRouter);
 
 ////
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   connectDB();
   console.log("Server started at port", PORT);
 });
