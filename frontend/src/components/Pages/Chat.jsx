@@ -18,16 +18,14 @@ export default function Chat({ socket, setLogState }) {
       message.createdAt
     ).toLocaleDateString();
 
-    if (chatLog[newMessageDateString]) {
-      console.log("true");
-      setChatLog({
-        ...chatLog,
-        [newMessageDateString]: [...chatLog[newMessageDateString], message],
-      });
-    } else {
-      console.log('false')
-      setChatLog({ ...chatLog, [newMessageDateString]: [message] });
-    }
+    setChatLog(log => {
+      if (log[newMessageDateString]) {
+        return { ...log, [newMessageDateString]: [...log[newMessageDateString], message]}
+      } else {
+        return { ...log, [newMessageDateString]: [message]}
+      }
+    })
+
     document
       .getElementById("chat-log")
       .scrollTo(0, document.getElementById("chat-log").scrollHeight);
@@ -52,7 +50,6 @@ export default function Chat({ socket, setLogState }) {
   };
 
   const fetchFriends = async () => {
-    console.log('fetching friends')
     let res = await fetch("/api/profile/friends/");
     res = await res.json();
     setFriendList(res.data);
@@ -69,12 +66,10 @@ export default function Chat({ socket, setLogState }) {
   };
 
   useEffect(() => fetchFriends, []);
-  useEffect(() => console.log("update", chatLog), [chatLog]);
   useEffect(() => {
     socket.on("newMessage", loadNewMessage);
     return () => {
       socket.off("newMessage");
-      console.log('off');
     };
   }, [chatLog]);
 
@@ -124,7 +119,7 @@ export default function Chat({ socket, setLogState }) {
             </div>
           ))}
       </div>
-      <ChatTextBar socket={socket} chatReceipientId={receipientId} />
+      <ChatTextBar chatReceipientId={receipientId} setChatLog={setChatLog} />
     </div>
   );
 }

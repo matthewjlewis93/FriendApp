@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function ChatTextBar({ chatReceipientId }) {
+export default function ChatTextBar({ chatReceipientId, setChatLog }) {
   const [messageContent, setMessageContent] = useState("");
 
   const sendChat = async (e) => {
@@ -12,6 +12,16 @@ export default function ChatTextBar({ chatReceipientId }) {
     });
     res = await res.json();
     setMessageContent("");
+
+    /////////
+    // setChatLog((e) => {
+    //   let messageDateString = new Date(res.createdAt).toLocaleDateString();
+    //   if (e[messageDateString]) {
+    //     return { ...e, [messageDateString]: [...e[messageDateString], res] };
+    //   } else {
+    //     return { ...e, [messageDateString]: [message] };
+    //   }
+    // });
   };
 
   const checkForScroll = () => {
