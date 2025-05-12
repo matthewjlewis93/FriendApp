@@ -1,22 +1,18 @@
 import User from "../models/user.model.js";
 import Message from "../models/message.model.js";
+import { getReceiverSocketId, io } from "../lib/socket.js";
 
 export const getMessages = async (req, res) => {
   const { friendId } = req.params;
   const { userId } = req.body;
 
   try {
-    const recievedMessages = await Message.find({
-      toId: userId,
-      fromId: friendId,
+    const messages = await Message.find({
+      $or: [
+        { toId: userId, fromId: friendId },
+        { toId: friendId, fromId: userId },
+      ],
     });
-    const sentMessages = await Message.find({
-      toId: friendId,
-      fromId: userId,
-    });
-    const messages = [...recievedMessages, ...sentMessages].toSorted((x, y) =>
-      String(x.createdAt).localeCompare(String(y.createdAt))
-    );
     res.status(200).json({ success: true, messages});
   } catch (error) {
     console.error(error);
@@ -25,11 +21,18 @@ export const getMessages = async (req, res) => {
 };
 
 export const sendMessage = async (req, res) => {
+  
   const { messageContent, toId, userId } = req.body;
   try {
     const newMessage = new Message({ fromId: userId, messageContent, toId });
     await newMessage.save();
-    res.status(200).json(newMessage);
+
+    const receiverSocketId = getReceiverSocketId(toId);
+    if (receiverSocketId) {
+      console.log('emitting to', receiverSocketId);
+      io.to(toId).emit("newMessage", newMessage);
+    }
+    res.status(201).json(newMessage);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error sending message" });

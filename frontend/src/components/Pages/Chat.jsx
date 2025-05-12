@@ -4,12 +4,34 @@ import ChatTextBar from "../ChatTextBar";
 import DateDivider from "../DateDivider";
 import Loading from "../Loading";
 import LoadingChat from "../LoadingChat";
+// import { socket } from "../../../socket";
 
-export default function Chat({ setLogState }) {
+export default function Chat({ socket, setLogState }) {
   const [friendList, setFriendList] = useState([]);
-  const [chatLog, setChatLog] = useState([]);
+  // const [allMessages, setAllMessages] = useState([]);
+  const [chatLog, setChatLog] = useState({});
   const [receipientId, setReceipientId] = useState("");
   const [loadingMessages, setLoadingMessages] = useState(true);
+
+  const loadNewMessage = (message) => {
+    const newMessageDateString = new Date(
+      message.createdAt
+    ).toLocaleDateString();
+
+    if (chatLog[newMessageDateString]) {
+      console.log("true");
+      setChatLog({
+        ...chatLog,
+        [newMessageDateString]: [...chatLog[newMessageDateString], message],
+      });
+    } else {
+      console.log('false')
+      setChatLog({ ...chatLog, [newMessageDateString]: [message] });
+    }
+    document
+      .getElementById("chat-log")
+      .scrollTo(0, document.getElementById("chat-log").scrollHeight);
+  };
 
   const fetchMessages = async (id) => {
     if (id !== "") {
@@ -20,6 +42,7 @@ export default function Chat({ setLogState }) {
       messages.sort((y, x) =>
         String(x.createdAt).localeCompare(String(y.createdAt))
       );
+      // setAllMessages(messages);
       const chatByDate = Object.groupBy(messages, ({ createdAt }) =>
         new Date(createdAt).toLocaleDateString()
       );
@@ -29,6 +52,7 @@ export default function Chat({ setLogState }) {
   };
 
   const fetchFriends = async () => {
+    console.log('fetching friends')
     let res = await fetch("/api/profile/friends/");
     res = await res.json();
     setFriendList(res.data);
@@ -45,6 +69,14 @@ export default function Chat({ setLogState }) {
   };
 
   useEffect(() => fetchFriends, []);
+  useEffect(() => console.log("update", chatLog), [chatLog]);
+  useEffect(() => {
+    socket.on("newMessage", loadNewMessage);
+    return () => {
+      socket.off("newMessage");
+      console.log('off');
+    };
+  }, [chatLog]);
 
   return (
     <div
@@ -60,28 +92,39 @@ export default function Chat({ setLogState }) {
       </div>
       <div id="chat-log">
         {loadingMessages && <LoadingChat />}
-        {Object.keys(chatLog).map((date, i) => (
-          <div
-            key={date}
-            style={{ display: "flex", flexDirection: "column-reverse" }}
-          >
-            {chatLog[date].map((message) => (
-              <ChatMessage
-                key={message._id}
-                messageReceived={message.fromId === receipientId}
-                toId={message.toId}
-                timeSent={new Date(message.createdAt).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-                messageContent={message.messageContent}
-              />
-            ))}
-            <DateDivider dateString={date} />
-          </div>
-        ))}
+        {Object.keys(chatLog)
+          .sort((y, x) =>
+            String(x.createdAt).localeCompare(String(y.createdAt))
+          )
+          .map((date, i) => (
+            <div
+              key={date}
+              style={{ display: "flex", flexDirection: "column-reverse" }}
+            >
+              {chatLog[date]
+                .sort((y, x) =>
+                  String(x.createdAt).localeCompare(String(y.createdAt))
+                )
+                .map((message) => (
+                  <ChatMessage
+                    key={message._id}
+                    messageReceived={message.fromId === receipientId}
+                    toId={message.toId}
+                    timeSent={new Date(message.createdAt).toLocaleTimeString(
+                      [],
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      }
+                    )}
+                    messageContent={message.messageContent}
+                  />
+                ))}
+              <DateDivider dateString={date} />
+            </div>
+          ))}
       </div>
-      <ChatTextBar chatReceipientId={receipientId} />
+      <ChatTextBar socket={socket} chatReceipientId={receipientId} />
     </div>
   );
 }

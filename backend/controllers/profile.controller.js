@@ -16,7 +16,7 @@ export const getFriendsList = async (req, res) => {
   try {
     const profile = await User.findById(userId);
     const friendList = profile.friends;
-    res.status(200).json({ success: true, data: [...friendList] });
+    res.status(200).json({ success: true, data: [...friendList], userId });
   } catch (error) {
     console.error(error);
     res
