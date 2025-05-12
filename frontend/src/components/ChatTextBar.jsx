@@ -12,16 +12,6 @@ export default function ChatTextBar({ chatReceipientId, setChatLog }) {
     });
     res = await res.json();
     setMessageContent("");
-
-    /////////
-    // setChatLog((e) => {
-    //   let messageDateString = new Date(res.createdAt).toLocaleDateString();
-    //   if (e[messageDateString]) {
-    //     return { ...e, [messageDateString]: [...e[messageDateString], res] };
-    //   } else {
-    //     return { ...e, [messageDateString]: [message] };
-    //   }
-    // });
   };
 
   const checkForScroll = () => {

@@ -18,11 +18,15 @@ export default function Chat({ socket, setLogState }) {
       message.createdAt
     ).toLocaleDateString();
 
+    
+
     setChatLog(log => {
       if (log[newMessageDateString]) {
-        return { ...log, [newMessageDateString]: [...log[newMessageDateString], message]}
+        console.log(1)
+        return { [newMessageDateString]: [...log[newMessageDateString], message], ...log}
       } else {
-        return { ...log, [newMessageDateString]: [message]}
+        console.log({ ...log, [newMessageDateString]: [message] });
+        return { [newMessageDateString]: [message], ...log}
       }
     })
 
