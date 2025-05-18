@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import ChatMessage from "../ChatMessage";
 import ChatTextBar from "../ChatTextBar";
 import DateDivider from "../DateDivider";
-import Loading from "../Loading";
 import LoadingChat from "../LoadingChat";
 // import { socket } from "../../../socket";
 
@@ -13,26 +12,45 @@ export default function Chat({ socket, setLogState }) {
   const [receipientId, setReceipientId] = useState("");
   const [loadingMessages, setLoadingMessages] = useState(true);
 
+  useEffect(() => {
+    document.getElementById("chat-log").addEventListener("click", (event) => {
+      if (document.getElementsByClassName("extended").length) {
+        document
+          .getElementsByClassName("extended")[0]
+          .classList.remove("extended");
+      }
+    });
+    return document
+      .getElementById("chat-log")
+      .removeEventListener("click", (event) => {
+        if (document.getElementsByClassName("extended").length) {
+          document
+            .getElementsByClassName("extended")
+            .classList.remove("extended");
+        }
+      });
+  }, []);
+
   const loadNewMessage = (message) => {
     const newMessageDateString = new Date(
       message.createdAt
     ).toLocaleDateString();
 
-    
-
-    setChatLog(log => {
+    setChatLog((log) => {
       if (log[newMessageDateString]) {
-        console.log(1)
-        return { [newMessageDateString]: [...log[newMessageDateString], message], ...log}
+        return {
+          ...log,
+          [newMessageDateString]: [message, ...log[newMessageDateString]],
+        };
       } else {
-        console.log({ ...log, [newMessageDateString]: [message] });
-        return { [newMessageDateString]: [message], ...log}
+        return { [newMessageDateString]: [message], ...log };
       }
-    })
-
-    document
-      .getElementById("chat-log")
-      .scrollTo(0, document.getElementById("chat-log").scrollHeight);
+    });
+    setTimeout(() => {
+      document
+        .getElementById("chat-log")
+        .scrollTo(0, document.getElementById("chat-log").scrollHeight + 10);
+    }, 100);
   };
 
   const fetchMessages = async (id) => {
@@ -70,10 +88,11 @@ export default function Chat({ socket, setLogState }) {
   };
 
   useEffect(() => fetchFriends, []);
+
   useEffect(() => {
     socket.on("newMessage", loadNewMessage);
     return () => {
-      socket.off("newMessage");
+      socket.off("newMessage", loadNewMessage);
     };
   }, [chatLog]);
 
@@ -123,7 +142,7 @@ export default function Chat({ socket, setLogState }) {
             </div>
           ))}
       </div>
-      <ChatTextBar chatReceipientId={receipientId} setChatLog={setChatLog} />
+      <ChatTextBar chatReceipientId={receipientId} />
     </div>
   );
 }

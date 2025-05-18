@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 
-export default function ChatTextBar({ chatReceipientId, setChatLog }) {
+export default function ChatTextBar({ chatReceipientId }) {
   const [messageContent, setMessageContent] = useState("");
 
   const sendChat = async (e) => {
     e.preventDefault();
+    document.getElementById("chatbox").focus();
     let res = await fetch("/api/message/send", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -38,6 +39,7 @@ export default function ChatTextBar({ chatReceipientId, setChatLog }) {
       }}
     >
       <textarea
+      id="chatbox"
         onChange={(e) => setMessageContent(e.target.value)}
         onClick={checkForScroll}
         value={messageContent}
