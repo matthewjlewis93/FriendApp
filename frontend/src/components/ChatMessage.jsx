@@ -1,9 +1,11 @@
+import { set } from "mongoose";
 import { useEffect, useState } from "react";
 
 export default function ChatMessage({
-  messageContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu mattis quam, sit amet faucibus sem. Sed in dictum eros. Vivamus massa sem, cursus vitae cursus ac, commodo eget enim. Nullam at ullamcorper enim. Mauris leo diam, egestas at mollis eu, euismod eu tellus. Vivamus porttitor nisi a ultrices facilisis. In elementum eros et nunc congue, ut commodo dolor finibus. Etiam diam leo, tincidunt non nisl eget, elementum sollicitudin arcu. Sed consequat eros placerat, ultrices lectus sed, tincidunt enim.",
+  messageId,
+  messageContent,
   messageReceived = false,
-  timeSent = "2:58 PM",
+  timeSent,
   reaction,
 }) {
   const [defaultDisplay, setDefaultDisplay] = useState(true);
@@ -15,6 +17,18 @@ export default function ChatMessage({
     if (letter.target.value == "" || letter.target.value.at(-1).match(reg)) {
       setReactionInput(letter.target.value);
     }
+  };
+
+  const sendReaction = async () => {
+    if (!reactionInput) return;
+    console.log(messageId)
+    setDefaultDisplay(true);
+    setReactionInput('');
+    let res = await fetch("/api/message/edit/" + messageId, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reaction: reactionInput, id: messageId }),
+    });
   };
 
   const extendAddReaction = (event) => {
@@ -43,6 +57,12 @@ export default function ChatMessage({
     }
   };
 
+  useEffect(() => {
+    if (!defaultDisplay) {
+      document.querySelector(".reaction-input input").focus();
+    }
+  },[defaultDisplay])
+
   return (
     <div
       onClick={(event) => extendAddReaction(event)}
@@ -62,7 +82,7 @@ export default function ChatMessage({
         {messageContent}
       </p>
       {messageReceived && !reaction && (
-        <div onClick={() => console.log("click")} className="add-reaction">
+        <div className="add-reaction">
           <p
             style={{
               margin: 0,
@@ -92,80 +112,84 @@ export default function ChatMessage({
         </div>
       )}
 
-      {reaction ?
-        (messageReceived && defaultDisplay ? (
+      {reaction ? (
+        messageReceived && defaultDisplay ? (
           <p className="reaction sent-reaction">{reaction}</p>
         ) : (
           <p className="reaction received-reaction">{reaction}</p>
-        )) : messageReceived && !defaultDisplay && (
-        <div className="reaction reaction-input">
-          <div style={{ display: "flex", gap: "2px" }}>
-            <input
-              autoCorrect="off"
-              placeholder={reaction}
-              maxLength={10}
-              size={11}
-              value={reactionInput}
-              onChange={(letter) => {
-                validateReactInput(letter);
-              }}
-            />
-            <p style={{ fontSize: "0.65rem", margin: "0", alignSelf: "end" }}>
-              {reactionInput.length}/10
-            </p>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              paddingRight: "1rem",
-              // gap: "10px",
-            }}
-          >
-            <button
-              className="submit-reaction"
+        )
+      ) : (
+        messageReceived &&
+        !defaultDisplay && (
+          <div className="reaction reaction-input">
+            <div style={{ display: "flex", gap: "2px" }}>
+              <input
+                autoCorrect="off"
+                placeholder={reaction}
+                maxLength={10}
+                size={11}
+                value={reactionInput}
+                onChange={(letter) => {
+                  validateReactInput(letter);
+                }}
+              />
+              <p style={{ fontSize: "0.65rem", margin: "0", alignSelf: "end" }}>
+                {reactionInput.length}/10
+              </p>
+            </div>
+            <div
               style={{
-                padding: "2px",
-                borderRadius: "4px",
-                height: "20px",
-                border: "2px solid",
+                display: "flex",
+                justifyContent: "space-evenly",
+                paddingRight: "1rem",
               }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="100%"
-                height="100%"
-                fill="currentColor"
-                viewBox="0 0 16 16"
+              <button
+                onClick={sendReaction}
+                className="submit-reaction"
+                style={{
+                  padding: "2px",
+                  borderRadius: "4px",
+                  height: "20px",
+                  border: "2px solid",
+                }}
               >
-                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-              </svg>
-            </button>
-            <button
-              className="cancel-reaction"
-              style={{
-                padding: "2px",
-                borderRadius: "4px",
-                border: "2px solid",
-                height: "20px",
-              }}
-              onClick={() => {
-                setDefaultDisplay(true);
-                setReactionInput("");
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="100%"
-                width="100%"
-                fill="currentColor"
-                viewBox="0 0 16 16"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="100%"
+                  height="100%"
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+              </button>
+              <button
+                className="cancel-reaction"
+                style={{
+                  padding: "2px",
+                  borderRadius: "4px",
+                  border: "2px solid",
+                  height: "20px",
+                }}
+                onClick={() => {
+                  setDefaultDisplay(true);
+                  setReactionInput("");
+                }}
               >
-                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="100%"
+                  width="100%"
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+              </button>
+            </div>
           </div>
-        </div>
+        )
       )}
       <p className="message-time">{timeSent}</p>
     </div>

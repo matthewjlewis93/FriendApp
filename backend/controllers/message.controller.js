@@ -28,9 +28,10 @@ export const sendMessage = async (req, res) => {
     await newMessage.save();
 
     const receiverSocketId = getReceiverSocketId(toId);
+    io.to(userId).emit("newMessage", newMessage);
     if (receiverSocketId) {
-      console.log('emitting to', receiverSocketId);
-      io.to(toId).to(userId).emit("newMessage", newMessage);
+      console.log('emitting message to', receiverSocketId);
+      io.to(toId).emit("newMessage", newMessage);
     }
     res.status(201).json(newMessage);
   } catch (error) {
@@ -39,6 +40,23 @@ export const sendMessage = async (req, res) => {
   }
 };
 
-export const editMessage = (req, res) => {};
+export const editMessage = async (req, res) => {
+  const {reaction, id, userId} = req.body;
+  // console.log("hello")
+  try {
+    const updatedMessage = await Message.findByIdAndUpdate(id, {reaction}, {new: true})
+    io.to(userId).emit("newReaction", updatedMessage);
+    const receiverSocketId = getReceiverSocketId(updatedMessage.fromId);
+    // console.log(updatedMessage);
+    if (receiverSocketId) {
+      console.log('emitting reaction to', receiverSocketId);
+      io.to(updatedMessage.fromId).emit("newReaction", updatedMessage);
+    }
+    res.status(201).json(updatedMessage);
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({message: "Error updating message"})
+  }
+};
 
 export const getFriends = (req, res) => {};

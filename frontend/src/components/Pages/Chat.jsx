@@ -52,6 +52,16 @@ export default function Chat({ socket, setLogState }) {
         .scrollTo(0, document.getElementById("chat-log").scrollHeight + 10);
     }, 100);
   };
+  const loadNewReaction = (message) => {
+    console.log(message);
+    const messageDateString = new Date(message.createdAt).toLocaleDateString();
+    setChatLog((log) => {
+        return {
+          ...log,
+          [messageDateString]: [...log[messageDateString]].toSpliced(log[messageDateString].findIndex(obj => obj._id === message._id), 1, message)
+        };
+    })
+  };
 
   const fetchMessages = async (id) => {
     if (id !== "") {
@@ -91,8 +101,10 @@ export default function Chat({ socket, setLogState }) {
 
   useEffect(() => {
     socket.on("newMessage", loadNewMessage);
+    socket.on("newReaction", loadNewReaction);
     return () => {
       socket.off("newMessage", loadNewMessage);
+      socket.off("newReaction", loadNewReaction);
     };
   }, [chatLog]);
 
@@ -102,7 +114,6 @@ export default function Chat({ socket, setLogState }) {
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        // height: "calc(100svh - 20px)"
       }}
     >
       <div>
@@ -125,6 +136,7 @@ export default function Chat({ socket, setLogState }) {
                 )
                 .map((message) => (
                   <ChatMessage
+                    messageId = {message._id}
                     key={message._id}
                     messageReceived={message.fromId === receipientId}
                     reaction={message.reaction}

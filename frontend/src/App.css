@@ -190,6 +190,7 @@ input {
   top: 0px;
   font-size: 0.75rem;
   margin: 6px 2px;
+  text-wrap-mode: nowrap;
 }
 .sent-reaction {
   background-color: var(--sent-reaction); 
