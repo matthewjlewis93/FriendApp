@@ -127,6 +127,7 @@ export default function Chat({ socket, setLogState }) {
                   <ChatMessage
                     key={message._id}
                     messageReceived={message.fromId === receipientId}
+                    reaction={message.reaction}
                     toId={message.toId}
                     timeSent={new Date(message.createdAt).toLocaleTimeString(
                       [],

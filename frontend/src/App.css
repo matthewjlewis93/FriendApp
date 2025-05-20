@@ -1,10 +1,10 @@
 :root {
   font-size: medium;
-  /* font-size: large; */
   --chat-background: #fef9e7;
-  /* --chat-background: white; */
   --received-message: #aed6f1;
   --sent-message: #f1948a;
+  --sent-reaction: #f5b7b1;
+  --received-reaction: #d6eaf8;
   --login-background: #f2f4f4;
   --registration-background: #f2f4f4;
 }
@@ -82,8 +82,7 @@ body {
 input {
   font-size: 1.2rem;
 }
-input:focus {
-}
+
 
 #login-page form {
   font-size: 1.5rem;
@@ -190,12 +189,13 @@ input:focus {
   border-radius: 5px;
   top: 0px;
   font-size: 0.75rem;
-  margin: 6px 2px
+  margin: 6px 2px;
 }
 .sent-reaction {
-  background-color: var(--sent-message); 
-  left: 100%;
+  background-color: var(--sent-reaction); 
+  left: calc(100% - 5px);
 }
+
 .sent-reaction::after {
   content: " ";
   position: absolute;
@@ -204,11 +204,11 @@ input:focus {
   margin-top: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: transparent var(--sent-message) transparent transparent;
+  border-color: transparent var(--sent-reaction) transparent transparent;
 }
 .received-reaction {
-background-color: var(--received-message);
-right: 100%;
+background-color: var(--received-reaction);
+right: calc(100% - 5px);
 }
 .received-reaction::after {
   content: " ";
@@ -218,7 +218,7 @@ right: 100%;
   margin-top: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: transparent transparent transparent var(--received-message);
+  border-color: transparent transparent transparent var(--received-reaction);
 }
 .add-reaction {
   position: absolute;
@@ -238,9 +238,30 @@ right: 100%;
   transition: right 300ms, z-index 0ms 300ms;
 }
 .reaction-input {
-  background-color: var(--sent-message); 
+  background-color: var(--sent-reaction); 
   left: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
+.submit-reaction {
+  background-color: #f9e79f;
+  color: #212f3c;
+}
+.submit-reaction:hover {
+  color: #f9e79f;
+  background-color: #212f3c;  
+}
+.cancel-reaction {
+  color: #b03a2e;
+  background-color: #ebedef;
+}
+.cancel-reaction:hover {
+  background-color: #b03a2e;
+  color: #ebedef;
+}
+
+
 .reaction-input::after {
   content: " ";
   position: absolute;
@@ -249,7 +270,7 @@ right: 100%;
   margin-top: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: transparent var(--sent-message) transparent transparent;
+  border-color: transparent var(--sent-reaction) transparent transparent;
 }
 .reaction-input input {
   font-size: 0.75rem;
