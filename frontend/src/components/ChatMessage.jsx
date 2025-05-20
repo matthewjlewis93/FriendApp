@@ -1,4 +1,3 @@
-import { set } from "mongoose";
 import { useEffect, useState } from "react";
 
 export default function ChatMessage({
@@ -10,6 +9,7 @@ export default function ChatMessage({
 }) {
   const [defaultDisplay, setDefaultDisplay] = useState(true);
   const [reactionInput, setReactionInput] = useState("");
+  const [reactionTimeoutId, setReactionTimeoutId] = useState("");
 
   const reg = /[\w\.\!\?="':;\(\)\-$%#@\*<>\/~\+]/;
 
@@ -19,11 +19,25 @@ export default function ChatMessage({
     }
   };
 
+  const highlightReaction = (e) => {
+    let reaction = e.target;
+    if (reaction.classList.contains("highlighted")) {
+      clearTimeout(reactionTimeoutId);
+    } else {
+      reaction.classList.add("highlighted");
+    }
+    setReactionTimeoutId(
+      setTimeout(() => {
+        reaction.classList.remove("highlighted");
+      }, 1500)
+    );
+  };
+
   const sendReaction = async () => {
     if (!reactionInput) return;
-    console.log(messageId)
+    console.log(messageId);
     setDefaultDisplay(true);
-    setReactionInput('');
+    setReactionInput("");
     let res = await fetch("/api/message/edit/" + messageId, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -57,11 +71,11 @@ export default function ChatMessage({
     }
   };
 
-  useEffect(() => {
-    if (!defaultDisplay) {
-      document.querySelector(".reaction-input input").focus();
-    }
-  },[defaultDisplay])
+  // useEffect(() => {
+  //   if (!defaultDisplay) {
+  //     document.querySelector(".reaction-input input").focus();
+  //   }
+  // }, [defaultDisplay]);
 
   return (
     <div
@@ -112,20 +126,26 @@ export default function ChatMessage({
         </div>
       )}
 
-      {reaction ? (
-        messageReceived && defaultDisplay ? (
-          <p className="reaction sent-reaction">{reaction}</p>
-        ) : (
+      {reaction && messageReceived && defaultDisplay ? (
+          <p
+            onClick={(e) => highlightReaction(e)}
+            onDoubleClick={() => setDefaultDisplay(false)}
+            className="reaction sent-reaction"
+          >
+            {reaction}
+          </p>
+        ) : reaction && !messageReceived && defaultDisplay ? (
           <p className="reaction received-reaction">{reaction}</p>
         )
-      ) : (
+       : (
         messageReceived &&
         !defaultDisplay && (
           <div className="reaction reaction-input">
             <div style={{ display: "flex", gap: "2px" }}>
               <input
                 autoCorrect="off"
-                placeholder={reaction}
+                autoCapitalize="off"
+                placeholder={reaction || "One word reaction"}
                 maxLength={10}
                 size={11}
                 value={reactionInput}

@@ -66,7 +66,7 @@ export default function ChatTextBar({ chatReceipientId }) {
         }}
         onClick={(e) => sendChat(e)}
       >
-        Send
+        <b>Send</b>
       </button>
     </form>
   );

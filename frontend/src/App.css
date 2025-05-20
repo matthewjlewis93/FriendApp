@@ -195,6 +195,13 @@ input {
 .sent-reaction {
   background-color: var(--sent-reaction); 
   left: calc(100% - 5px);
+  outline: 0px solid var(--sent-reaction);
+  transition: outline 1s;
+}
+
+.highlighted {
+  outline: 2px solid #b03a2e;
+  /* animation: reaction-highlight 1s linear; */
 }
 
 .sent-reaction::after {
@@ -234,7 +241,7 @@ right: calc(100% - 5px);
   padding-right: 5px;
 }
 .extended {
-  right: calc(0% - 60px);
+  right: calc(0% - 50px);
   z-index: 12;
   transition: right 300ms, z-index 0ms 300ms;
 }
