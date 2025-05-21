@@ -71,11 +71,11 @@ export default function ChatMessage({
     }
   };
 
-  // useEffect(() => {
-  //   if (!defaultDisplay) {
-  //     document.querySelector(".reaction-input input").focus();
-  //   }
-  // }, [defaultDisplay]);
+  useEffect(() => {
+    if (!defaultDisplay) {
+      document.querySelector(".reaction-input input").focus();
+    }
+  }, [defaultDisplay]);
 
   return (
     <div
@@ -84,7 +84,7 @@ export default function ChatMessage({
         "chat-div " + (messageReceived ? "received-chat" : "sent-chat")
       }
       style={{
-        maxWidth: defaultDisplay ? "65%" : "45%",
+        maxWidth: defaultDisplay ? "65%" : "40%",
       }}
     >
       <p
@@ -146,15 +146,15 @@ export default function ChatMessage({
                 autoCorrect="off"
                 autoCapitalize="off"
                 placeholder={reaction || "One word reaction"}
-                maxLength={10}
-                size={11}
+                maxLength={12}
+                size={13}
                 value={reactionInput}
                 onChange={(letter) => {
                   validateReactInput(letter);
                 }}
               />
-              <p style={{ fontSize: "0.65rem", margin: "0", alignSelf: "end" }}>
-                {reactionInput.length}/10
+              <p style={{ fontSize: "0.65rem", margin: "0", alignSelf: "end", width: "25px" }}>
+                {reactionInput.length}/12
               </p>
             </div>
             <div

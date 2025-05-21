@@ -201,7 +201,6 @@ input {
 
 .highlighted {
   outline: 2px solid #b03a2e;
-  /* animation: reaction-highlight 1s linear; */
 }
 
 .sent-reaction::after {

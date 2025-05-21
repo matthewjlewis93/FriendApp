@@ -19,7 +19,7 @@ export default function Login (
     e.target.form[0].value = "";
     e.target.form[1].value = "";
     if (res.success) {
-      setLogState({loading: false, loggedIn: true})
+      setLogState({loading: false, loggedIn: "standby"})
     } else {
       setLogState({ loading: false, loggedIn: false });
     }

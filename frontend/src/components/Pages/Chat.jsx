@@ -53,7 +53,6 @@ export default function Chat({ socket, setLogState }) {
     }, 100);
   };
   const loadNewReaction = (message) => {
-    console.log(message);
     const messageDateString = new Date(message.createdAt).toLocaleDateString();
     setChatLog((log) => {
         return {
@@ -100,6 +99,7 @@ export default function Chat({ socket, setLogState }) {
   useEffect(() => fetchFriends, []);
 
   useEffect(() => {
+    console.log(socket);
     socket.on("newMessage", loadNewMessage);
     socket.on("newReaction", loadNewReaction);
     return () => {
