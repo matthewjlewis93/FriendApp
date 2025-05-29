@@ -6,9 +6,9 @@ import { generateToken } from "../lib/utils.js";
 
 export const signup = async (req, res) => {
   const { fullName, email, username, password } = req.body;
-  console.log(req.file);
-  console.log(req.body);
-  return;
+  const {filename} = req.file;
+  // console.log(req.file);
+  // return;
   try {
     if (password.length < 6) {
       return res
@@ -27,6 +27,7 @@ export const signup = async (req, res) => {
       email,
       username,
       password: hashedPassword,
+      profilePhoto: filename
     });
 
     if (newUser) {

@@ -19,7 +19,7 @@ export default function Login (
     e.target.form[0].value = "";
     e.target.form[1].value = "";
     if (res.success) {
-      setLogState({loading: false, loggedIn: "standby"})
+      setLogState({loading: false, loggedIn: "pending socket"})
     } else {
       setLogState({ loading: false, loggedIn: false });
     }
@@ -29,15 +29,21 @@ export default function Login (
 
   const submitRegistration = async (e) => {
     e.preventDefault();
-    await fetch("/api/auth/signup", {
+    setLogState({loading: true, loggedIn: false});
+    let res = await fetch("/api/auth/signup", {
       method: "POST",
       // headers: {"Content-Type": "multipart/form-data"},
       body: new FormData(e.target.form)
     })
-    
-
-    console.log(e.target.form);
-    console.log(new FormData(e.target.form));
+    res = await res.json();
+    console.log(res)
+    if (res._id) {
+      setLogState({loading: false, loggedIn: "pending socket"})
+    } else {
+      //error popup
+      console.error("Sign up error");
+      setLogState({loading: false, loggedIn: false});
+    }
   }
 
   return (

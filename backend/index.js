@@ -16,6 +16,7 @@ app.use(cookieParser());
 //routes
 app.use("/api/auth", authRouter);
 app.use(userInfo); // Middleware excluded by auth route
+app.use("/api/photos", express.static('uploads'));
 app.use("/api/message", messageRouter);
 app.use("/api/profile", profileRouter);
 
