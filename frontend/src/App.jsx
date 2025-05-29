@@ -36,7 +36,6 @@ function App() {
 
   return (
     <>
-      {/* <p>{`${socket.id}`}</p> */}
       {logState.loading && <Loading />}
       {logState.loggedIn === false && <Login setLogState={setLogState} />}
       {logState.loggedIn === true && <Chat socket={socket} setLogState={setLogState} />}

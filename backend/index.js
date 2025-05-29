@@ -1,6 +1,6 @@
 import express from "express";
-import { connectDB } from "./lib/db.js";
 import cookieParser from "cookie-parser";
+import { connectDB } from "./lib/db.js";
 import { userInfo } from "./lib/userInfoMiddleware.js";
 import authRouter from "./routes/auth.route.js";
 import messageRouter from "./routes/message.route.js";

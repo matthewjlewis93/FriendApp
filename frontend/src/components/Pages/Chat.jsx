@@ -99,7 +99,6 @@ export default function Chat({ socket, setLogState }) {
   useEffect(() => fetchFriends, []);
 
   useEffect(() => {
-    console.log(socket);
     socket.on("newMessage", loadNewMessage);
     socket.on("newReaction", loadNewReaction);
     return () => {

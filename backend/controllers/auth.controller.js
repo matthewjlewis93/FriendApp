@@ -2,8 +2,13 @@ import bcrypt from "bcrypt";
 import User from "../models/user.model.js";
 import { generateToken } from "../lib/utils.js";
 
+
+
 export const signup = async (req, res) => {
-  const { fullName, email, password } = req.body;
+  const { fullName, email, username, password } = req.body;
+  console.log(req.file);
+  console.log(req.body);
+  return;
   try {
     if (password.length < 6) {
       return res
@@ -20,6 +25,7 @@ export const signup = async (req, res) => {
     const newUser = new User({
       fullName,
       email,
+      username,
       password: hashedPassword,
     });
 

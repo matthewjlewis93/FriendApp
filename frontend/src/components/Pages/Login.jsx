@@ -27,8 +27,17 @@ export default function Login (
 
   useEffect(() => setLogState({loading: false, loggedIn: false}), [])
 
-  const submitRegistration = (e) => {
-    e.preventDefault()
+  const submitRegistration = async (e) => {
+    e.preventDefault();
+    await fetch("/api/auth/signup", {
+      method: "POST",
+      // headers: {"Content-Type": "multipart/form-data"},
+      body: new FormData(e.target.form)
+    })
+    
+
+    console.log(e.target.form);
+    console.log(new FormData(e.target.form));
   }
 
   return (
@@ -68,22 +77,26 @@ export default function Login (
         <form id="register">
           <label>
             Email: <br />
-            <input type="email" />
+            <input name="email" type="email" />
           </label>
           <br />
           <label>
             First Name: <br />
-            <input />
+            <input name="fullName" />
           </label>
           <br />
           <label>
             <div style={{display: "flex", justifyContent: "space-between", alignItems: "end" , margin: 0}}><span>Username: </span><span style={{fontSize: "0.6rem"}}>used for logging in only</span></div>
-            <input />
+            <input name="username" />
           </label>
           <br />
           <label>
             Password: <br />
-            <input type="password" />
+            <input name="password" type="password" />
+          </label> <br />
+          <label>
+            Profile Photo: <br />
+            <input name="profile-photo" type="file" />
           </label>
           <br />
           <button className="login-button" onClick={(e) => {submitRegistration(e)}}>Register</button>
