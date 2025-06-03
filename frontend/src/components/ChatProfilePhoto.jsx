@@ -1,27 +1,41 @@
 // import {image} from "";
 
-export default function ChatProfilePhoto({}) {
+import { useState, useEffect } from "react";
+
+export default function ChatProfilePhoto({ friend, setReceiptientId }) {
+  const [img, setImg] = useState("../../public/person-fill.svg");
+
+  const fetchPhoto = async () => {
+    if (friend.profilePic) {
+      let res = await fetch("/api/photos/" + friend.profilePic);
+      console.log(res);
+      res = await res.blob();
+      const imgObjURL = URL.createObjectURL(res);
+      setImg(imgObjURL);
+    }
+  };
+
+  useEffect(() => fetchPhoto, []);
+
   return (
-    <span style={{ position: "relative" }}>
-      <div
-        className="photo-container"
-        // style={{
-        //   position: "absolute",
-        //   top: "2px",
-        //   left: "2px",
-        //   borderRadius: "50%",
-        //   border: "5px dashed green",
-        //   width: "50px",
-        //   height: "50px",
-        //   zIndex: 1
-        // }}
-      ></div>
-      <img
-      className="profile-photo"
-        alt="photo"
-        
-        src="../src/assets/20230920_170742.jpg"
-      />
+    <span
+      onClick={(e) => {
+        setReceiptientId(friend._id);
+      }}
+      style={{
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        border: "2px solid #00000066",
+        margin: "3px",
+        width: "fit-content",
+        borderRadius: "5px",
+      }}
+    >
+      <div className="photo-container"></div>
+      <img loading="lazy" className="profile-photo" alt="photo" src={img} />
+      matt
     </span>
   );
 }

@@ -27,7 +27,7 @@ export const signup = async (req, res) => {
       email,
       username,
       password: hashedPassword,
-      profilePhoto: filename
+      profilePic: filename
     });
 
     if (newUser) {

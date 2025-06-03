@@ -3,9 +3,10 @@ import ChatMessage from "../ChatMessage";
 import ChatTextBar from "../ChatTextBar";
 import DateDivider from "../DateDivider";
 import LoadingChat from "../LoadingChat";
-// import { socket } from "../../../socket";
+import ChatProfilePhoto from "../ChatProfilePhoto";
+import Settings from "./Settings";
 
-export default function Chat({ socket, setLogState }) {
+export default function Chat({ socket, setLogState, profileData }) {
   const [friendList, setFriendList] = useState([]);
   // const [allMessages, setAllMessages] = useState([]);
   const [chatLog, setChatLog] = useState({});
@@ -55,11 +56,15 @@ export default function Chat({ socket, setLogState }) {
   const loadNewReaction = (message) => {
     const messageDateString = new Date(message.createdAt).toLocaleDateString();
     setChatLog((log) => {
-        return {
-          ...log,
-          [messageDateString]: [...log[messageDateString]].toSpliced(log[messageDateString].findIndex(obj => obj._id === message._id), 1, message)
-        };
-    })
+      return {
+        ...log,
+        [messageDateString]: [...log[messageDateString]].toSpliced(
+          log[messageDateString].findIndex((obj) => obj._id === message._id),
+          1,
+          message
+        ),
+      };
+    });
   };
 
   const fetchMessages = async (id) => {
@@ -84,8 +89,8 @@ export default function Chat({ socket, setLogState }) {
     let res = await fetch("/api/profile/friends/");
     res = await res.json();
     setFriendList(res.data);
-    setReceipientId(res.data[0].friendId);
-    fetchMessages(res.data[0].friendId);
+    setReceipientId(res.data[0]._id);
+    fetchMessages(res.data[0]._id);
   };
 
   const sendLogout = async () => {
@@ -115,46 +120,67 @@ export default function Chat({ socket, setLogState }) {
         height: "100%",
       }}
     >
-      <div>
+      <div style={{ display: "flex", gap: "5px" }}>
         <button onClick={sendLogout}>Logout</button>
-      </div>
-      <div id="chat-log">
-        {loadingMessages && <LoadingChat />}
-        {Object.keys(chatLog)
-          .sort((y, x) =>
-            String(x.createdAt).localeCompare(String(y.createdAt))
-          )
-          .map((date, i) => (
-            <div
-              key={date}
-              style={{ display: "flex", flexDirection: "column-reverse" }}
-            >
-              {chatLog[date]
-                .sort((y, x) =>
-                  String(x.createdAt).localeCompare(String(y.createdAt))
-                )
-                .map((message) => (
-                  <ChatMessage
-                    messageId = {message._id}
-                    key={message._id}
-                    messageReceived={message.fromId === receipientId}
-                    reaction={message.reaction}
-                    toId={message.toId}
-                    timeSent={new Date(message.createdAt).toLocaleTimeString(
-                      [],
-                      {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      }
-                    )}
-                    messageContent={message.messageContent}
-                  />
-                ))}
-              <DateDivider dateString={date} />
-            </div>
+        <div style={{ flexGrow: 1 }}>
+          {friendList.map((friend, i) => (
+            <ChatProfilePhoto
+              key={"friend" + i}
+              friend={friend}
+              setReceiptientId={setReceipientId}
+            />
           ))}
+        </div>
+        <div style={{ borderLeft: " 2px solid" }}>
+          <ChatProfilePhoto
+            key={"self"}
+            friend={profileData}
+            setReceiptientId={setReceipientId}
+          />
+        </div>
       </div>
-      <ChatTextBar chatReceipientId={receipientId} />
+      {receipientId === socket._opts.query.userId ? (
+        <Settings />
+      ) : (
+        <>
+          <div id="chat-log">
+            {loadingMessages && <LoadingChat />}
+            {Object.keys(chatLog)
+              .sort((y, x) =>
+                String(x.createdAt).localeCompare(String(y.createdAt))
+              )
+              .map((date, i) => (
+                <div
+                  key={date}
+                  style={{ display: "flex", flexDirection: "column-reverse" }}
+                >
+                  {chatLog[date]
+                    .sort((y, x) =>
+                      String(x.createdAt).localeCompare(String(y.createdAt))
+                    )
+                    .map((message) => (
+                      <ChatMessage
+                        messageId={message._id}
+                        key={message._id}
+                        messageReceived={message.fromId === receipientId}
+                        reaction={message.reaction}
+                        toId={message.toId}
+                        timeSent={new Date(
+                          message.createdAt
+                        ).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                        messageContent={message.messageContent}
+                      />
+                    ))}
+                  <DateDivider dateString={date} />
+                </div>
+              ))}
+          </div>
+          <ChatTextBar chatReceipientId={receipientId} />
+        </>
+      )}
     </div>
   );
 }

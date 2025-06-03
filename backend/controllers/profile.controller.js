@@ -1,9 +1,9 @@
 import User from "../models/user.model.js";
 
 export const getFullProfile = async (req, res) => {
-  const { profileId } = req.params;
+  const { userId } = req.body;
   try {
-    const fullProfile = User.findById(profileId);
+    const fullProfile = await User.findById(userId);
     res.status(200).json({ success: true, fullProfile });
   } catch (error) {
     console.error(error);
@@ -16,7 +16,14 @@ export const getFriendsList = async (req, res) => {
   try {
     const profile = await User.findById(userId);
     const friendList = profile.friends;
-    res.status(200).json({ success: true, data: [...friendList], userId });
+
+    const idArray = friendList.map((friend) => friend.friendId);
+
+    let allFriends = await User.find({ _id: { $in: idArray } }).select(
+      "fullName profilePic"
+    );
+    console.log(allFriends);
+    res.status(200).json({ success: true, data: [...allFriends], userId });
   } catch (error) {
     console.error(error);
     res
