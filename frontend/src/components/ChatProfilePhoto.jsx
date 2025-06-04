@@ -2,13 +2,16 @@
 
 import { useState, useEffect } from "react";
 
-export default function ChatProfilePhoto({ friend, setReceiptientId }) {
+export default function ChatProfilePhoto({
+  friend,
+  recipientId,
+  setReceiptientId,
+}) {
   const [img, setImg] = useState("../../public/person-fill.svg");
 
   const fetchPhoto = async () => {
     if (friend.profilePic) {
       let res = await fetch("/api/photos/" + friend.profilePic);
-      console.log(res);
       res = await res.blob();
       const imgObjURL = URL.createObjectURL(res);
       setImg(imgObjURL);
@@ -19,6 +22,7 @@ export default function ChatProfilePhoto({ friend, setReceiptientId }) {
 
   return (
     <span
+      className={"photo-container " + (recipientId === friend._id ? "selected-profile" : "")}
       onClick={(e) => {
         setReceiptientId(friend._id);
       }}
@@ -33,9 +37,8 @@ export default function ChatProfilePhoto({ friend, setReceiptientId }) {
         borderRadius: "5px",
       }}
     >
-      <div className="photo-container"></div>
       <img loading="lazy" className="profile-photo" alt="photo" src={img} />
-      matt
+      {friend.fullName}
     </span>
   );
 }

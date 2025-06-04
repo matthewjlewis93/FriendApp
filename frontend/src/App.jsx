@@ -21,7 +21,7 @@ function App() {
         setSocket(
           io(URL, {
             query: {
-              userId: res.userId,
+              userId: res.fullProfile._id,
             },
           })
         );

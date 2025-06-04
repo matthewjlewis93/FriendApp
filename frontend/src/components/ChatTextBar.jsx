@@ -35,7 +35,6 @@ export default function ChatTextBar({ chatReceipientId }) {
         justifyContent: "space-evenly",
         backgroundColor: "var(--chat-background)",
         borderTop: "2px solid #34495e",
-        margin: "0 -10px",
       }}
     >
       <textarea

@@ -10,6 +10,7 @@
 }
 [data-theme="dark"] {
   --chat-background: #212f3c;
+  /* color: white; */
 }
 
 html {
@@ -21,7 +22,7 @@ html {
 body {
   flex-grow: 1;
   margin: 0px;
-  padding: 5px 10px;
+  /* padding: 5px 10px; */
   background-color: var(--chat-background);
   overflow-x: hidden;
 }
@@ -53,8 +54,8 @@ body {
 
 .profile-photo {
   /* position: absolute; */
-  height: 60px;
-  width: 60px;
+  height: 2.5rem;
+  width: 2.5rem;
   border-radius: 50%;
   z-index: 0;
   top: 0;
@@ -62,11 +63,15 @@ body {
   object-fit: cover;
 }
 
-.photo-container:hover {
-  animation-name: rotate;
-  animation-iteration-count: infinite;
-  animation-duration: 5s;
-  animation-timing-function: linear;
+.photo-container {
+  font-size: 0.6rem;
+}
+
+#settings-div .selected-profile {
+  background-color: #f5b7b1aa;
+}
+#friend-bar .selected-profile {
+  background-color: #aed6f1aa;
 }
 
 #login-tabs button {

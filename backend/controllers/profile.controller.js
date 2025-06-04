@@ -22,7 +22,6 @@ export const getFriendsList = async (req, res) => {
     let allFriends = await User.find({ _id: { $in: idArray } }).select(
       "fullName profilePic"
     );
-    console.log(allFriends);
     res.status(200).json({ success: true, data: [...allFriends], userId });
   } catch (error) {
     console.error(error);

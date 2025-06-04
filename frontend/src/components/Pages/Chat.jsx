@@ -10,7 +10,7 @@ export default function Chat({ socket, setLogState, profileData }) {
   const [friendList, setFriendList] = useState([]);
   // const [allMessages, setAllMessages] = useState([]);
   const [chatLog, setChatLog] = useState({});
-  const [receipientId, setReceipientId] = useState("");
+  const [recipientId, setReceipientId] = useState("");
   const [loadingMessages, setLoadingMessages] = useState(true);
 
   useEffect(() => {
@@ -93,14 +93,6 @@ export default function Chat({ socket, setLogState, profileData }) {
     fetchMessages(res.data[0]._id);
   };
 
-  const sendLogout = async () => {
-    let res = await fetch("/api/auth/logout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-    });
-    setLogState({ loading: false, loggedIn: false });
-  };
-
   useEffect(() => fetchFriends, []);
 
   useEffect(() => {
@@ -120,26 +112,35 @@ export default function Chat({ socket, setLogState, profileData }) {
         height: "100%",
       }}
     >
-      <div style={{ display: "flex", gap: "5px" }}>
-        <button onClick={sendLogout}>Logout</button>
-        <div style={{ flexGrow: 1 }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "5px",
+          boxShadow: "0px 0px 4px black",
+          zIndex: 4,
+          backgroundColor: "#f2f4f4aa",
+        }}
+      >
+        <div id="friend-bar" style={{ flexGrow: 1 }}>
           {friendList.map((friend, i) => (
             <ChatProfilePhoto
               key={"friend" + i}
               friend={friend}
+              recipientId={recipientId}
               setReceiptientId={setReceipientId}
             />
           ))}
         </div>
-        <div style={{ borderLeft: " 2px solid" }}>
+        <div id="settings-div" style={{ borderLeft: " 2px solid" }}>
           <ChatProfilePhoto
             key={"self"}
             friend={profileData}
+            recipientId={recipientId}
             setReceiptientId={setReceipientId}
           />
         </div>
       </div>
-      {receipientId === socket._opts.query.userId ? (
+      {recipientId === profileData._id ? (
         <Settings />
       ) : (
         <>
@@ -162,7 +163,7 @@ export default function Chat({ socket, setLogState, profileData }) {
                       <ChatMessage
                         messageId={message._id}
                         key={message._id}
-                        messageReceived={message.fromId === receipientId}
+                        messageReceived={message.fromId === recipientId}
                         reaction={message.reaction}
                         toId={message.toId}
                         timeSent={new Date(
@@ -178,7 +179,7 @@ export default function Chat({ socket, setLogState, profileData }) {
                 </div>
               ))}
           </div>
-          <ChatTextBar chatReceipientId={receipientId} />
+          <ChatTextBar chatReceipientId={recipientId} />
         </>
       )}
     </div>
