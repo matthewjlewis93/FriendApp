@@ -65,6 +65,7 @@ body {
 
 .photo-container {
   font-size: 0.6rem;
+  cursor: pointer;
 }
 
 #settings-div .selected-profile {

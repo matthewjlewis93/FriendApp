@@ -5,7 +5,7 @@ import { generateToken } from "../lib/utils.js";
 
 
 export const signup = async (req, res) => {
-  const { fullName, email, username, password } = req.body;
+  const { firstName, email, username, password } = req.body;
   const {filename} = req.file;
   // console.log(req.file);
   // return;
@@ -23,7 +23,7 @@ export const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new User({
-      fullName,
+      firstName,
       email,
       username,
       password: hashedPassword,
@@ -35,7 +35,7 @@ export const signup = async (req, res) => {
       await newUser.save();
       res.status(201).json({
         _id: newUser._id,
-        fullName: newUser.fullName,
+        firstName: newUser.firstName,
         email: newUser.email,
         profilePic: newUser.profilePic,
       });

@@ -38,7 +38,7 @@ export default function ChatProfilePhoto({
       }}
     >
       <img loading="lazy" className="profile-photo" alt="photo" src={img} />
-      {friend.fullName}
+      {friend.firstName}
     </span>
   );
 }

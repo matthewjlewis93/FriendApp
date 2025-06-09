@@ -1,5 +1,7 @@
 import express from "express";
 import { addFriend, deleteProfile, editProfile, getFriendsList, getFullProfile, removeFriend } from "../controllers/profile.controller.js";
+import multer from "multer";
+const upload = multer({dest: "uploads/"});
 
 const profileRouter = express.Router();
 
@@ -11,7 +13,7 @@ profileRouter.patch("/add/:profileId", addFriend);
 
 profileRouter.patch("/remove/:profileId", removeFriend);
 
-profileRouter.patch("/edit", editProfile);
+profileRouter.patch("/edit", upload.single("profile-photo"), editProfile);
 
 profileRouter.delete("/delete", deleteProfile);
 

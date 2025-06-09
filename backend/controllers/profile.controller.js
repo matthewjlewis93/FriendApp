@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import fs from "node:fs";
 
 export const getFullProfile = async (req, res) => {
   const { userId } = req.body;
@@ -20,7 +21,7 @@ export const getFriendsList = async (req, res) => {
     const idArray = friendList.map((friend) => friend.friendId);
 
     let allFriends = await User.find({ _id: { $in: idArray } }).select(
-      "fullName profilePic"
+      "firstName profilePic"
     );
     res.status(200).json({ success: true, data: [...allFriends], userId });
   } catch (error) {
@@ -42,6 +43,21 @@ export const addFriend = async (req, res) => {
 
 export const removeFriend = async (req, res) => {};
 
-export const editProfile = async (req, res) => {};
+export const editProfile = async (req, res) => {
+  console.log(req.body);
+  const {userId} = req.body;
+  return res.status(200);
+  try {
+    if (req.file) {
+      const {filename} = req.file;
+      const profile = await User.findByIdAndUpdate(userId, {profilePic: filename});
+      await fs.unlink("../../uploads/"+profile.profilePic, (error) => {
+        console.error(error);
+      })
+    };
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const deleteProfile = async (req, res) => {};

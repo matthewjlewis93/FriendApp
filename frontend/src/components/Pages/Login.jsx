@@ -32,7 +32,6 @@ export default function Login (
     setLogState({loading: true, loggedIn: false});
     let res = await fetch("/api/auth/signup", {
       method: "POST",
-      // headers: {"Content-Type": "multipart/form-data"},
       body: new FormData(e.target.form)
     })
     res = await res.json();
@@ -88,7 +87,7 @@ export default function Login (
           <br />
           <label>
             First Name: <br />
-            <input name="fullName" />
+            <input name="firstName" />
           </label>
           <br />
           <label>
