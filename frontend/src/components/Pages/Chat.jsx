@@ -6,7 +6,7 @@ import LoadingChat from "../LoadingChat";
 import ChatProfilePhoto from "../ChatProfilePhoto";
 import Settings from "./Settings";
 
-export default function Chat({ socket, setLogState, profileData }) {
+export default function Chat({ socket, setLogState, profileData, setProfileData }) {
   const [friendList, setFriendList] = useState([]);
   // const [allMessages, setAllMessages] = useState([]);
   const [chatLog, setChatLog] = useState({});
@@ -125,7 +125,9 @@ export default function Chat({ socket, setLogState, profileData }) {
           {friendList.map((friend, i) => (
             <ChatProfilePhoto
               key={"friend" + i}
-              friend={friend}
+              profileId={friend._id}
+              profileName={friend.firstName}
+              profilePic={friend.profilePic}
               recipientId={recipientId}
               setReceiptientId={setReceipientId}
             />
@@ -134,14 +136,20 @@ export default function Chat({ socket, setLogState, profileData }) {
         <div id="settings-div" style={{ borderLeft: " 2px solid" }}>
           <ChatProfilePhoto
             key={"self"}
-            friend={profileData}
+            profileId={profileData._id}
+            profileName={profileData.firstName}
+            profilePic={profileData.profilePic}
             recipientId={recipientId}
             setReceiptientId={setReceipientId}
           />
         </div>
       </div>
       {recipientId === profileData._id ? (
-        <Settings />
+        <Settings
+          setLogState={setLogState}
+          profileData={profileData}
+          setProfileData={setProfileData}
+        />
       ) : (
         <>
           <div id="chat-log">

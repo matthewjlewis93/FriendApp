@@ -1,4 +1,4 @@
-export default function Settings({ setLogState }) {
+export default function Settings({ setLogState, profileData, setProfileData }) {
   const sendLogout = async () => {
     let res = await fetch("/api/auth/logout", {
       method: "POST",
@@ -9,11 +9,19 @@ export default function Settings({ setLogState }) {
 
   const sendUpdate = async (e) => {
     e.preventDefault();
-    console.dir(new FormData(e.target.form));
+    const settingsForm = new FormData(e.target.form);
+    settingsForm.append("userId", profileData._id);
+    settingsForm.append("profilePic", profileData.profilePic);
+
     const res = await fetch("/api/profile/edit", {
       method: "PATCH",
-      body: new FormData(e.target.form),
+      body: settingsForm,
     });
+    const resJson = await res.json();
+    if (resJson.success) {
+      console.log(resJson.data);
+      setProfileData(resJson.data);
+    }
   };
 
   return (

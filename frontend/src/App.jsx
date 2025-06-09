@@ -39,7 +39,7 @@ function App() {
     <>
       {logState.loading && <Loading />}
       {logState.loggedIn === false && <Login setLogState={setLogState} />}
-      {logState.loggedIn === true && <Chat socket={socket} setLogState={setLogState} profileData={profileData}/>}
+      {logState.loggedIn === true && <Chat socket={socket} setLogState={setLogState} profileData={profileData} setProfileData={setProfileData}/>}
     </>
   );
 }
