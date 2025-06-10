@@ -35,7 +35,6 @@ export default function Login (
       body: new FormData(e.target.form)
     })
     res = await res.json();
-    console.log(res)
     if (res._id) {
       setLogState({loading: false, loggedIn: "pending socket"})
     } else {

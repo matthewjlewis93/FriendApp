@@ -19,8 +19,8 @@ export default function Settings({ setLogState, profileData, setProfileData }) {
     });
     const resJson = await res.json();
     if (resJson.success) {
-      console.log(resJson.data);
       setProfileData(resJson.data);
+      e.target.form.reset();
     }
   };
 

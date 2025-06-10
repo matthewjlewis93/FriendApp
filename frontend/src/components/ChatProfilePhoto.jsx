@@ -12,7 +12,6 @@ export default function ChatProfilePhoto({
   const [img, setImg] = useState("../../person-fill.svg");
 
   const fetchPhoto = async () => {
-    console.log(profilePic);
     if (profilePic) {
       let res = await fetch("/api/photos/" + profilePic);
       res = await res.blob();

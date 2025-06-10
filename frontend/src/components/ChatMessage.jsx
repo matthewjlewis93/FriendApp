@@ -35,7 +35,6 @@ export default function ChatMessage({
 
   const sendReaction = async () => {
     if (!reactionInput) return;
-    console.log(messageId);
     setDefaultDisplay(true);
     setReactionInput("");
     let res = await fetch("/api/message/edit/" + messageId, {
@@ -48,7 +47,6 @@ export default function ChatMessage({
   const extendAddReaction = (event) => {
     let chatDiv;
     if (!defaultDisplay || reaction) return;
-    // console.log(Boolean(!defaultDisplay || reaction))
     if (event.target.classList.contains("chat-div")) {
       chatDiv = event.target;
     } else if (
