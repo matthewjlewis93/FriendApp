@@ -49,7 +49,7 @@ export default function Settings({ setLogState, profileData, setProfileData }) {
         <br />
         <label>
           First Name: <br />
-          <input name="firstName" />
+          <input name="firstName" maxLength={16} />
         </label>
         <br />
 

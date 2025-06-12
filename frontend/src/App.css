@@ -64,8 +64,39 @@ body {
 }
 
 .photo-container {
+  /* transition: display 1s 2s allow-discrete, width 1s, height 1s, top 1s, left 1s; */
+  position: relative;
+  top: 0px;
+  left: 0px;
   font-size: 0.6rem;
   cursor: pointer;
+  width: 3rem ;
+  max-width: 5rem;
+  height: calc(100% - 10px);
+  max-height: 5rem;
+  word-break: break-all;
+  margin: 3px;
+  /* position: relative; */
+}
+
+.expanded-photo-container {
+  /* transition: display 1s 2s allow-discrete, width 1s, height 1s, top 1s, left 1s; */
+  position: absolute;
+  width: calc(100svw - 8px);
+  max-width: calc(100svw - 8px);
+  height: calc(100svh - 8px);
+  max-height: calc(100svh - 8px);
+  left: 2px;
+  top: 2px;
+  background-color: #f6f6f0;
+  z-index: 3;
+}
+
+#expanded-profile {
+ /* transition-property: all;
+  transition-duration: 1s;
+  transition-delay: 1s;
+  transition-behavior: allow-discrete; */
 }
 
 #settings-div .selected-profile {

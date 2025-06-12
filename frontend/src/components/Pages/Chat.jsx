@@ -6,7 +6,12 @@ import LoadingChat from "../LoadingChat";
 import ChatProfilePhoto from "../ChatProfilePhoto";
 import Settings from "./Settings";
 
-export default function Chat({ socket, setLogState, profileData, setProfileData }) {
+export default function Chat({
+  socket,
+  setLogState,
+  profileData,
+  setProfileData,
+}) {
   const [friendList, setFriendList] = useState([]);
   // const [allMessages, setAllMessages] = useState([]);
   const [chatLog, setChatLog] = useState({});
@@ -110,6 +115,7 @@ export default function Chat({ socket, setLogState, profileData, setProfileData 
         display: "flex",
         flexDirection: "column",
         height: "100%",
+        overflowY: "clip"
       }}
     >
       <div
@@ -125,9 +131,7 @@ export default function Chat({ socket, setLogState, profileData, setProfileData 
           {friendList.map((friend, i) => (
             <ChatProfilePhoto
               key={"friend" + i}
-              profileId={friend._id}
-              profileName={friend.firstName}
-              profilePic={friend.profilePic}
+              profile={friend}
               recipientId={recipientId}
               setReceiptientId={setReceipientId}
             />
@@ -136,11 +140,10 @@ export default function Chat({ socket, setLogState, profileData, setProfileData 
         <div id="settings-div" style={{ borderLeft: " 2px solid" }}>
           <ChatProfilePhoto
             key={"self"}
-            profileId={profileData._id}
-            profileName={profileData.firstName}
-            profilePic={profileData.profilePic}
+            profile={profileData}
             recipientId={recipientId}
             setReceiptientId={setReceipientId}
+            friendProfile={false}
           />
         </div>
       </div>
