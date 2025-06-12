@@ -88,15 +88,8 @@ body {
   max-height: calc(100svh - 8px);
   left: 2px;
   top: 2px;
-  background-color: #f6f6f0;
+  background-color: #ebf5fb;
   z-index: 3;
-}
-
-#expanded-profile {
- /* transition-property: all;
-  transition-duration: 1s;
-  transition-delay: 1s;
-  transition-behavior: allow-discrete; */
 }
 
 #settings-div .selected-profile {

@@ -75,11 +75,11 @@ export default function ChatProfilePhoto({
           visibility: expanded ? "visible" : "hidden",
           opacity: expanded ? 1 : 0,
           height: expanded ? "auto" : "0px",
-          overflow: "auto"
+          overflow: "auto",
           // display: expanded ? "block" : "none"
         }}
       >
-        <p style={{flexGrow: 1}}>
+        <p style={{flexGrow: 1, padding: "2px 10px"}}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed efficitur
           finibus elementum. Nam dapibus purus eget condimentum vestibulum.
           Suspendisse rutrum id elit vel vehicula. Suspendisse quis dictum enim.
@@ -109,7 +109,7 @@ export default function ChatProfilePhoto({
           dictum auctor. Praesent pharetra lectus sit amet neque egestas
           porttitor.
         </p>
-        <button onClick={() => setExpanded(false)}>Collapse</button>
+        <button style={{position: "absolute", top: "2px", right: "2px", width: "1.5rem", height: "1.5rem"}} onClick={() => setExpanded(false)}>X</button>
       </div>
     </span>
   );

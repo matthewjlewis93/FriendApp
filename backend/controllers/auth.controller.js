@@ -1,12 +1,16 @@
 import bcrypt from "bcrypt";
 import User from "../models/user.model.js";
-import { generateToken } from "../lib/utils.js";
+import { generateToken, sharpImageResize } from "../lib/utils.js";
 
 
 
 export const signup = async (req, res) => {
   const { firstName, email, username, password } = req.body;
-  const {filename} = req.file;
+  let filename = ''
+  if (req.file) {
+    filename = req.file.filename;
+    sharpImageResize(filename);
+  }
   // console.log(req.file);
   // return;
   try {

@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import fs from "node:fs";
+import { sharpImageResize } from "../lib/utils.js";
 
 export const getFullProfile = async (req, res) => {
   const { userId } = req.body;
@@ -56,18 +57,21 @@ export const editProfile = async (req, res) => {
     if (req.file) {
       // update profile picture
       const { filename } = req.file;
-      profileUpdates.profilePic = filename;
+      sharpImageResize(filename);
+      profileUpdates.profilePic = filename+".jpg";
     }
     const profile = await User.findByIdAndUpdate(userId, profileUpdates, {
       new: true,
     });
     if (req.file && req.body["profilePic"]) {
-      fs.unlink(import.meta.dirname+"/../../uploads/" + req.body["profilePic"], (error) => {
-        if (error) console.error(error)
+      fs.unlink(
+        import.meta.dirname + "/../../uploads/" + req.body["profilePic"],
+        (error) => {
+          if (error) console.error(error);
         }
       );
     }
-    res.status(200).json({success: true, data: profile})
+    res.status(200).json({ success: true, data: profile });
   } catch (error) {
     console.error(error);
   }

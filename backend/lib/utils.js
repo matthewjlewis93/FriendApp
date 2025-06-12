@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+import sharp from "sharp";
+import fs from "node:fs";
 export const generateToken = (userId, res) => {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
     expiresIn: "7d",
@@ -8,6 +10,24 @@ export const generateToken = (userId, res) => {
     httpOnly: true,
     sameSite: "strict",
     secure: process.env.NODE_ENV !== "development",
+  });
+};
+
+export const sharpImageResize = async (filename) => {
+  const sharpFile = sharp("uploads/" + filename);
+  await sharpFile
+    .resize({
+      height: 900,
+      width: 900,
+      fit: "cover",
+      position: sharp.strategy.attention,
+      kernel: "linear",
+      withoutEnlargement: true,
+    })
+    .toFormat("jpg")
+    .toFile("uploads/" + filename + ".jpg");
+  fs.unlink(import.meta.dirname + "/../../uploads/" + filename, (error) => {
+    if (error) console.error(error);
   });
 };
 
