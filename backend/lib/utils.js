@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import sharp from "sharp";
 import fs from "node:fs";
+
 export const generateToken = (userId, res) => {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
     expiresIn: "7d",
@@ -17,13 +18,14 @@ export const sharpImageResize = async (filename) => {
   const sharpFile = sharp("uploads/" + filename);
   await sharpFile
     .resize({
-      height: 900,
-      width: 900,
+      height: 750,
+      width: 750,
       fit: "cover",
       position: sharp.strategy.attention,
       kernel: "linear",
       withoutEnlargement: true,
     })
+    .withMetadata()
     .toFormat("jpg")
     .toFile("uploads/" + filename + ".jpg");
   fs.unlink(import.meta.dirname + "/../../uploads/" + filename, (error) => {

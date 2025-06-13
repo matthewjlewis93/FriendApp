@@ -11,8 +11,6 @@ export const signup = async (req, res) => {
     filename = req.file.filename;
     sharpImageResize(filename);
   }
-  // console.log(req.file);
-  // return;
   try {
     if (password.length < 6) {
       return res
