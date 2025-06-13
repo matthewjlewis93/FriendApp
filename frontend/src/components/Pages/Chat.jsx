@@ -17,6 +17,30 @@ export default function Chat({
   const [chatLog, setChatLog] = useState({});
   const [recipientId, setReceipientId] = useState("");
   const [loadingMessages, setLoadingMessages] = useState(true);
+  const [scrolledToBottom, setScrolledToBottom] = useState(true);
+  const [observerTarget, setObserverTarget] = useState();
+
+  const observerOptions = {
+    root: document.getElementById("chat-log"),
+    rootMargin: "0px",
+    threshold: 0.05,
+  };
+  const observerCallback = (entries, observer) => {
+    entries.forEach((entry) => {
+      entry.isIntersecting ? setScrolledToBottom(true) : setScrolledToBottom(false)
+    });
+  };
+  const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+  useEffect(() => {
+    if (chatLog) {
+      let target = document.getElementById("chat-log").children[0].children[0];
+      observer.observe(target);
+      if (scrolledToBottom) target.scrollIntoView()
+    }
+    return () => 
+      observer.disconnect();
+    }, [chatLog]);
 
   useEffect(() => {
     document.getElementById("chat-log").addEventListener("click", (event) => {
@@ -52,11 +76,6 @@ export default function Chat({
         return { [newMessageDateString]: [message], ...log };
       }
     });
-    setTimeout(() => {
-      document
-        .getElementById("chat-log")
-        .scrollTo(0, document.getElementById("chat-log").scrollHeight + 10);
-    }, 100);
   };
   const loadNewReaction = (message) => {
     const messageDateString = new Date(message.createdAt).toLocaleDateString();
@@ -115,7 +134,7 @@ export default function Chat({
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        overflowY: "clip"
+        overflowY: "clip",
       }}
     >
       <div
