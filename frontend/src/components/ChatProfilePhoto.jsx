@@ -41,9 +41,8 @@ export default function ChatProfilePhoto({
       }
       onClick={handleClick}
       style={{
-        // transition: "display 250ms 500ms allow-discrete, width 250ms, height 250ms, top 250ms, left 250ms",
         transition:
-          "all 500ms allow-discrete" +
+          "all 500ms allow-discrete, background-color 100ms" +
           (expanded ? ", position 0s 500ms" : ", position 0s"),
         display: "flex",
         flexDirection: "column",
@@ -59,12 +58,14 @@ export default function ChatProfilePhoto({
         src={img}
         style={{
           transition: "inherit",
-          minHeight: expanded ? "5rem" : "2.5rem",
-          minWidth: expanded ? "5rem" : "2.5rem",
+          minHeight: expanded ? "8rem" : "2.5rem",
+          minWidth: expanded ? "8rem" : "2.5rem",
           borderRadius: expanded ? "10px" : "50%"
         }}
       />
+      <p style={{margin: 0, fontSize: expanded ? "1.5rem" : "0.6rem"}}>
       {profile.firstName}
+      </p>
       <div
         style={{
           display: "flex",

@@ -18,16 +18,17 @@ export default function Chat({
   const [recipientId, setReceipientId] = useState("");
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [scrolledToBottom, setScrolledToBottom] = useState(true);
-  const [observerTarget, setObserverTarget] = useState();
 
   const observerOptions = {
     root: document.getElementById("chat-log"),
     rootMargin: "0px",
     threshold: 0.05,
   };
-  const observerCallback = (entries, observer) => {
+  const observerCallback = (entries) => {
     entries.forEach((entry) => {
-      entry.isIntersecting ? setScrolledToBottom(true) : setScrolledToBottom(false)
+      entry.isIntersecting
+        ? setScrolledToBottom(true)
+        : setScrolledToBottom(false);
     });
   };
   const observer = new IntersectionObserver(observerCallback, observerOptions);
@@ -36,13 +37,13 @@ export default function Chat({
     if (chatLog) {
       let target = document.getElementById("chat-log").children[0].children[0];
       observer.observe(target);
-      if (scrolledToBottom) target.scrollIntoView()
+      if (scrolledToBottom) target.scrollIntoView();
     }
-    return () => 
-      observer.disconnect();
-    }, [chatLog]);
+    return () => observer.disconnect();
+  }, [chatLog]);
 
   useEffect(() => {
+    // add reaction
     document.getElementById("chat-log").addEventListener("click", (event) => {
       if (document.getElementsByClassName("extended").length) {
         document
@@ -100,7 +101,6 @@ export default function Chat({
       messages.sort((y, x) =>
         String(x.createdAt).localeCompare(String(y.createdAt))
       );
-      // setAllMessages(messages);
       const chatByDate = Object.groupBy(messages, ({ createdAt }) =>
         new Date(createdAt).toLocaleDateString()
       );
@@ -134,7 +134,7 @@ export default function Chat({
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        overflowY: "clip",
+        // overflowY: "clip",
       }}
     >
       <div
@@ -144,6 +144,7 @@ export default function Chat({
           boxShadow: "0px 0px 4px black",
           zIndex: 4,
           backgroundColor: "#f2f4f4aa",
+          maxHeight: "5.5rem"
         }}
       >
         <div id="friend-bar" style={{ flexGrow: 1 }}>
@@ -180,7 +181,7 @@ export default function Chat({
               .sort((y, x) =>
                 String(x.createdAt).localeCompare(String(y.createdAt))
               )
-              .map((date, i) => (
+              .map((date) => (
                 <div
                   key={date}
                   style={{ display: "flex", flexDirection: "column-reverse" }}
@@ -203,6 +204,7 @@ export default function Chat({
                           minute: "2-digit",
                         })}
                         messageContent={message.messageContent}
+                        read={message.read}
                       />
                     ))}
                   <DateDivider dateString={date} />

@@ -2,6 +2,7 @@ export default function DateDivider({ dateString }) {
   return (
     <div
       // id={"date-divider-" + dateString}
+      className="date-divider"
       style={{
         display: "flex",
         alignItems: "center",

@@ -59,4 +59,16 @@ export const editMessage = async (req, res) => {
   }
 };
 
+export const readMessage = async (req, res) => {
+  const {read, id, userId} = req.body;
+
+  try {
+    const readMessage = await Message.findByIdAndUpdate(id, {read}, {new: true})
+    res.status(201).json({success: true});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({succcess: false})
+  }
+}
+
 export const getFriends = (req, res) => {};

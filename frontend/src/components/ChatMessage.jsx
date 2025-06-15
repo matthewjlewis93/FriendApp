@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 export default function ChatMessage({
   messageId,
   messageContent,
-  messageReceived = false,
+  messageReceived,
   timeSent,
   reaction,
+  read,
 }) {
   const [defaultDisplay, setDefaultDisplay] = useState(true);
   const [reactionInput, setReactionInput] = useState("");
   const [reactionTimeoutId, setReactionTimeoutId] = useState("");
+  const [messageSeen, setMessageSeen] = useState(Boolean(read)); 
 
   const reg = /[\w\.\!\?="':;\(\)\-$%#@\*<>\/~\+]/;
 
@@ -75,14 +77,53 @@ export default function ChatMessage({
     }
   }, [defaultDisplay]);
 
+  useEffect(() => {
+    // console.log(document.querySelector(`div [index='${messageId}'`));
+    if (
+      !messageSeen &&
+      messageReceived &&
+      document.querySelector(`div [index='${messageId}'`)
+    ) {
+      const readOptions = {
+        root: document.getElementById("chat-log"),
+        rootMargin: -document.getElementsByClassName("date-divider")[0].offsetHeight+"px 0px 0px 0px",
+        threshold: 1.0,
+      };
+      const readCallback = (entries) => {
+        entries.forEach(async (entry) => {
+          if (entry.intersectionRatio == 1) {
+            // console.log("hi");
+            setMessageSeen(true);
+            readObvserver.disconnect();
+            await fetch('/api/message/read/'+messageId, {
+              method: "PATCH",
+              headers: {"Content-Type" : "application/json"},
+              body: JSON.stringify({id: messageId, read: true})
+            })
+          }
+        });
+      };
+      const readObvserver = new IntersectionObserver(readCallback, readOptions);
+      readObvserver.observe(
+        document.querySelector(`div [index='${messageId}'`)
+      );
+    }
+  }, []);
+
   return (
     <div
+      index={messageId}
       onClick={(event) => extendAddReaction(event)}
       className={
         "chat-div " + (messageReceived ? "received-chat" : "sent-chat")
       }
       style={{
         maxWidth: defaultDisplay ? "65%" : "40%",
+        outline:
+          !messageSeen && messageReceived
+            ? "4px solid #f1c40fff"
+            : "2px solid #f1c40f00",
+        transition: "outline 750ms 1s",
       }}
     >
       <p
@@ -125,17 +166,16 @@ export default function ChatMessage({
       )}
 
       {reaction && messageReceived && defaultDisplay ? (
-          <p
-            onClick={(e) => highlightReaction(e)}
-            onDoubleClick={() => setDefaultDisplay(false)}
-            className="reaction sent-reaction"
-          >
-            {reaction}
-          </p>
-        ) : reaction && !messageReceived && defaultDisplay ? (
-          <p className="reaction received-reaction">{reaction}</p>
-        )
-       : (
+        <p
+          onClick={(e) => highlightReaction(e)}
+          onDoubleClick={() => setDefaultDisplay(false)}
+          className="reaction sent-reaction"
+        >
+          {reaction}
+        </p>
+      ) : reaction && !messageReceived && defaultDisplay ? (
+        <p className="reaction received-reaction">{reaction}</p>
+      ) : (
         messageReceived &&
         !defaultDisplay && (
           <div className="reaction reaction-input">
@@ -151,7 +191,14 @@ export default function ChatMessage({
                   validateReactInput(letter);
                 }}
               />
-              <p style={{ fontSize: "0.65rem", margin: "0", alignSelf: "end", width: "25px" }}>
+              <p
+                style={{
+                  fontSize: "0.65rem",
+                  margin: "0",
+                  alignSelf: "end",
+                  width: "25px",
+                }}
+              >
                 {reactionInput.length}/12
               </p>
             </div>

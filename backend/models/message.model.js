@@ -16,7 +16,7 @@ const messageSchema = new mongoose.Schema(
       minLength: 1,
     },
     read: {
-      type: Date,
+      type: Boolean,
     },
     reaction: {
       type: String,

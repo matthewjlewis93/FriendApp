@@ -10,6 +10,7 @@ export default function LoadingChat() {
           hour: "2-digit",
           minute: "2-digit",
         })}
+        read={true}
       />
     </div>
   );
