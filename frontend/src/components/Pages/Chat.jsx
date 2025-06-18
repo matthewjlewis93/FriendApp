@@ -33,6 +33,32 @@ export default function Chat({
   };
   const observer = new IntersectionObserver(observerCallback, observerOptions);
 
+  const markAsRead = (messageId) => {
+    const readMessage = Object.values(chatLog)
+      .flat()
+      .find((e) => e._id === messageId);
+    readMessage["read"] = true;
+    const readMessageDateString = new Date(
+      readMessage.createdAt
+    ).toLocaleDateString();
+
+    // [messageDateString]: [...log[messageDateString]].toSpliced(
+    //   log[messageDateString].findIndex((obj) => obj._id === message._id),
+    //   1,
+    //   message
+
+    setChatLog({
+      ...chatLog,
+      [readMessageDateString]: [...chatLog[readMessageDateString]].toSpliced(
+        chatLog[readMessageDateString].findIndex(
+          (obj) => obj._id === readMessage._id
+        ),
+        1,
+        readMessage
+      ),
+    });
+  };
+
   useEffect(() => {
     if (chatLog) {
       let target = document.getElementById("chat-log").children[0].children[0];
@@ -144,7 +170,7 @@ export default function Chat({
           boxShadow: "0px 0px 4px black",
           zIndex: 4,
           backgroundColor: "#f2f4f4aa",
-          maxHeight: "5.5rem"
+          maxHeight: "5.5rem",
         }}
       >
         <div id="friend-bar" style={{ flexGrow: 1 }}>
@@ -205,6 +231,7 @@ export default function Chat({
                         })}
                         messageContent={message.messageContent}
                         read={message.read}
+                        markAsRead={markAsRead}
                       />
                     ))}
                   <DateDivider dateString={date} />

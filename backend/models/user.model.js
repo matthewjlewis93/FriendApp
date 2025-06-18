@@ -5,8 +5,8 @@ const infoSubSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  music: {
-    type: Array,
+  DOB: {
+    type: Date,
   },
   hobbies: {
     type: Array,

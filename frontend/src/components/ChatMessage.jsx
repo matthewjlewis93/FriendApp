@@ -7,11 +7,11 @@ export default function ChatMessage({
   timeSent,
   reaction,
   read,
+  markAsRead
 }) {
   const [defaultDisplay, setDefaultDisplay] = useState(true);
   const [reactionInput, setReactionInput] = useState("");
   const [reactionTimeoutId, setReactionTimeoutId] = useState("");
-  const [messageSeen, setMessageSeen] = useState(Boolean(read)); 
 
   const reg = /[\w\.\!\?="':;\(\)\-$%#@\*<>\/~\+]/;
 
@@ -78,9 +78,8 @@ export default function ChatMessage({
   }, [defaultDisplay]);
 
   useEffect(() => {
-    // console.log(document.querySelector(`div [index='${messageId}'`));
     if (
-      !messageSeen &&
+      !read &&
       messageReceived &&
       document.querySelector(`div [index='${messageId}'`)
     ) {
@@ -92,8 +91,8 @@ export default function ChatMessage({
       const readCallback = (entries) => {
         entries.forEach(async (entry) => {
           if (entry.intersectionRatio == 1) {
-            // console.log("hi");
-            setMessageSeen(true);
+            // setMessageSeen(true);
+            markAsRead(messageId)
             readObvserver.disconnect();
             await fetch('/api/message/read/'+messageId, {
               method: "PATCH",
@@ -120,7 +119,7 @@ export default function ChatMessage({
       style={{
         maxWidth: defaultDisplay ? "65%" : "40%",
         outline:
-          !messageSeen && messageReceived
+          !read && messageReceived
             ? "4px solid #f1c40fff"
             : "2px solid #f1c40f00",
         transition: "outline 750ms 1s",
