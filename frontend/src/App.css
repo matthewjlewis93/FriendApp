@@ -7,10 +7,13 @@
   --received-reaction: #d6eaf8;
   --login-background: #f2f4f4;
   --registration-background: #f2f4f4;
+  --non-chat-text-color: black;
+  --selected-friend-profile: #aed6f1;
 }
 [data-theme="dark"] {
   --chat-background: #212f3c;
-  /* color: white; */
+  --non-chat-text-color: white;
+  --selected-friend-profile: #21618c;
 }
 
 html {
@@ -22,7 +25,6 @@ html {
 body {
   flex-grow: 1;
   margin: 0px;
-  /* padding: 5px 10px; */
   background-color: var(--chat-background);
   overflow-x: hidden;
 }
@@ -84,15 +86,17 @@ body {
   max-height: calc(100svh - 8px);
   left: 2px;
   top: 2px;
-  background-color: #ebf5fb;
+  background-color: var(--selected-friend-profile);
+  color: var(--non-chat-text-color);
   z-index: 3;
 }
 
 #settings-div .selected-profile {
-  background-color: #f5b7b1aa;
+  background-color: #f5b7b1;
 }
 #friend-bar .selected-profile {
-  background-color: #aed6f1aa;
+  background-color: var(--selected-friend-profile);
+  color: var(--non-chat-text-color);
 }
 
 #login-tabs button {
@@ -109,6 +113,10 @@ input {
   font-size: 1.2rem;
 }
 
+#user-profile {
+  /* width: 100%; */
+  margin: 10px 20px;
+}
 
 #login-page form {
   font-size: 1.5rem;

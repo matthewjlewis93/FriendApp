@@ -77,7 +77,6 @@ export default function ChatProfilePhoto({
           opacity: expanded ? 1 : 0,
           height: expanded ? "auto" : "0px",
           overflow: "auto",
-          // display: expanded ? "block" : "none"
         }}
       >
         <p style={{flexGrow: 1, padding: "2px 10px"}}>

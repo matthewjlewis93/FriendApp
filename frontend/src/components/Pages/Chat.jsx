@@ -4,7 +4,7 @@ import ChatTextBar from "../ChatTextBar";
 import DateDivider from "../DateDivider";
 import LoadingChat from "../LoadingChat";
 import ChatProfilePhoto from "../ChatProfilePhoto";
-import Settings from "./Settings";
+import UserProfile from "./UserProfile";
 
 export default function Chat({
   socket,
@@ -41,11 +41,6 @@ export default function Chat({
     const readMessageDateString = new Date(
       readMessage.createdAt
     ).toLocaleDateString();
-
-    // [messageDateString]: [...log[messageDateString]].toSpliced(
-    //   log[messageDateString].findIndex((obj) => obj._id === message._id),
-    //   1,
-    //   message
 
     setChatLog({
       ...chatLog,
@@ -141,6 +136,7 @@ export default function Chat({
     setFriendList(res.data);
     setReceipientId(res.data[0]._id);
     fetchMessages(res.data[0]._id);
+    // setReceipientId(profileData._id);
   };
 
   useEffect(() => fetchFriends, []);
@@ -160,7 +156,6 @@ export default function Chat({
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        // overflowY: "clip",
       }}
     >
       <div
@@ -170,7 +165,7 @@ export default function Chat({
           boxShadow: "0px 0px 4px black",
           zIndex: 4,
           backgroundColor: "#f2f4f4aa",
-          maxHeight: "5.5rem",
+          maxHeight: "5.4rem",
         }}
       >
         <div id="friend-bar" style={{ flexGrow: 1 }}>
@@ -194,7 +189,7 @@ export default function Chat({
         </div>
       </div>
       {recipientId === profileData._id ? (
-        <Settings
+        <UserProfile
           setLogState={setLogState}
           profileData={profileData}
           setProfileData={setProfileData}
