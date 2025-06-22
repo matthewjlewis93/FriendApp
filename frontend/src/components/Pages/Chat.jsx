@@ -5,6 +5,7 @@ import DateDivider from "../DateDivider";
 import LoadingChat from "../LoadingChat";
 import ChatProfilePhoto from "../ChatProfilePhoto";
 import UserProfile from "./UserProfile";
+import useLocalStorage from "../../useLocalStorage";
 
 export default function Chat({
   socket,
@@ -18,6 +19,7 @@ export default function Chat({
   const [recipientId, setReceipientId] = useState("");
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [scrolledToBottom, setScrolledToBottom] = useState(true);
+  const [theme, setTheme] = useLocalStorage("theme", "light");
 
   const observerOptions = {
     root: document.getElementById("chat-log"),
@@ -65,7 +67,7 @@ export default function Chat({
 
   useEffect(() => {
     // add reaction
-    document.getElementById("chat-log").addEventListener("click", (event) => {
+    document.getElementById("chat-log").addEventListener("click", () => {
       if (document.getElementsByClassName("extended").length) {
         document
           .getElementsByClassName("extended")[0]
@@ -142,6 +144,10 @@ export default function Chat({
   useEffect(() => fetchFriends, []);
 
   useEffect(() => {
+    document.body.setAttribute("data-theme", theme)
+  }, [theme])
+
+  useEffect(() => {
     socket.on("newMessage", loadNewMessage);
     socket.on("newReaction", loadNewReaction);
     return () => {
@@ -164,7 +170,9 @@ export default function Chat({
           gap: "5px",
           boxShadow: "0px 0px 4px black",
           zIndex: 4,
-          backgroundColor: "#f2f4f4aa",
+          // backgroundColor: "#f2f4f4aa",
+          backgroundColor: "#e5e8e8",
+          backgroundColor: "#f9e79f",
           maxHeight: "5.4rem",
         }}
       >
@@ -193,6 +201,8 @@ export default function Chat({
           setLogState={setLogState}
           profileData={profileData}
           setProfileData={setProfileData}
+          theme={theme}
+          setTheme={setTheme}
         />
       ) : (
         <>

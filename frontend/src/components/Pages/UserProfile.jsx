@@ -6,6 +6,8 @@ export default function UserProfile({
   setLogState,
   profileData,
   setProfileData,
+  theme,
+  setTheme
 }) {
   const [userProfileContent, setUserProfileContent] = useState("edit-profile");
 
@@ -25,7 +27,7 @@ export default function UserProfile({
           Logout
         </button>
       </div>
-      {userProfileContent === "settings" ? <Settings /> : <EditProfile />}
+      {userProfileContent === "settings" ? <Settings theme={theme} setTheme={setTheme} /> : <EditProfile />}
     </div>
   );
 }

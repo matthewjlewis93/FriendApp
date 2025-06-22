@@ -42,7 +42,7 @@ export default function ChatProfilePhoto({
       onClick={handleClick}
       style={{
         transition:
-          "all 500ms allow-discrete, background-color 100ms" +
+          "all 150ms allow-discrete, background-color 100ms, color 120ms" +
           (expanded ? ", position 0s 500ms" : ", position 0s"),
         display: "flex",
         flexDirection: "column",
