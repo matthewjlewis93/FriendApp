@@ -67,23 +67,25 @@ export default function Chat({
 
   useEffect(() => {
     // add reaction
-    document.getElementById("chat-log").addEventListener("click", () => {
-      if (document.getElementsByClassName("extended").length) {
-        document
-          .getElementsByClassName("extended")[0]
-          .classList.remove("extended");
-      }
-    });
-    return document
-      .getElementById("chat-log")
-      .removeEventListener("click", (event) => {
+    if (document.getElementById("chat-log")) {
+      document.getElementById("chat-log").addEventListener("click", () => {
         if (document.getElementsByClassName("extended").length) {
           document
-            .getElementsByClassName("extended")
+            .getElementsByClassName("extended")[0]
             .classList.remove("extended");
         }
       });
-  }, []);
+      return document
+        .getElementById("chat-log")
+        .removeEventListener("click", () => {
+          if (document.getElementsByClassName("extended").length) {
+            document
+              .getElementsByClassName("extended")[0]
+              .classList.remove("extended");
+          }
+        });
+    }
+  }, [recipientId]);
 
   const loadNewMessage = (message) => {
     const newMessageDateString = new Date(
@@ -144,8 +146,8 @@ export default function Chat({
   useEffect(() => fetchFriends, []);
 
   useEffect(() => {
-    document.body.setAttribute("data-theme", theme)
-  }, [theme])
+    document.body.setAttribute("data-theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     socket.on("newMessage", loadNewMessage);
