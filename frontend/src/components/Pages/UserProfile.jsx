@@ -27,7 +27,7 @@ export default function UserProfile({
           Logout
         </button>
       </div>
-      {userProfileContent === "settings" ? <Settings theme={theme} setTheme={setTheme} /> : <EditProfile />}
+      {userProfileContent === "settings" ? <Settings theme={theme} setTheme={setTheme} /> : <EditProfile profileData={profileData} />}
     </div>
   );
 }

@@ -48,7 +48,6 @@ export default function ChatMessage({
 
   const extendAddReaction = (event) => {
     let chatDiv;
-    console.log(':)')
     if (!defaultDisplay || reaction) return;
     if (event.target.classList.contains("chat-div")) {
       chatDiv = event.target;

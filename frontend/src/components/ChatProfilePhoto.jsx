@@ -1,6 +1,7 @@
 // import {image} from "";
 
 import { useState, useEffect } from "react";
+import ExpandedProfile from "./ExpandedProfile";
 
 export default function ChatProfilePhoto({
   profile,
@@ -8,7 +9,7 @@ export default function ChatProfilePhoto({
   setReceiptientId,
   friendProfile = true,
 }) {
-  const [img, setImg] = useState("../../person-fill.svg");
+  const [displayImg, setDisplayImg] = useState("../../person-fill.svg");
   const [expanded, setExpanded] = useState(false);
 
   const fetchPhoto = async () => {
@@ -16,7 +17,7 @@ export default function ChatProfilePhoto({
       let res = await fetch("/api/photos/" + profile.profilePic);
       res = await res.blob();
       const imgObjURL = URL.createObjectURL(res);
-      setImg(imgObjURL);
+      setDisplayImg(imgObjURL);
     }
   };
 
@@ -32,41 +33,41 @@ export default function ChatProfilePhoto({
   }, [profile.profilePic]);
 
   return (
-    <span
-      className={
-        expanded
-          ? "expanded-photo-container"
-          : "photo-container " +
-            (recipientId === profile._id ? "selected-profile" : "")
-      }
-      onClick={handleClick}
-      style={{
-        transition:
-          "all 300ms allow-discrete, background-color 100ms, color 120ms" +
-          (expanded ? ", position 0s 500ms" : ", position 0s"),
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        border: "2px solid #00000066",
-        borderRadius: "5px",
-      }}
-    >
-      <img
-        loading="lazy"
-        className="profile-photo"
-        alt="photo"
-        src={img}
+    <>
+      <span
+        className={
+          "photo-container " +
+          (recipientId === profile._id ? "selected-profile" : "")
+        }
+        onClick={handleClick}
         style={{
-          transition: "inherit",
-          minHeight: expanded ? "8rem" : "2.5rem",
-          minWidth: expanded ? "8rem" : "2.5rem",
-          borderRadius: expanded ? "10px" : "50%"
+          transition:
+            "all 300ms allow-discrete, background-color 100ms, color 120ms" +
+            (expanded ? ", position 0s 500ms" : ", position 0s"),
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          border: "2px solid #00000066",
+          borderRadius: "5px",
         }}
-      />
-      <p style={{margin: 0, fontSize: expanded ? "1.5rem" : "0.6rem"}}>
-      {profile.firstName}
-      </p>
-      <div
+      >
+        <img
+          loading="lazy"
+          className="profile-photo"
+          alt="photo"
+          src={displayImg}
+          style={{
+            transition: "inherit",
+            minHeight: "2.5rem",
+            minWidth: "2.5rem",
+            borderRadius: "50%",
+          }}
+        />
+        <p style={{ margin: "0 2px", fontSize: "0.6rem" }}>
+          {profile.firstName}
+        </p>
+
+        {/* <div
         style={{
           display: "flex",
           flexDirection: "column",
@@ -76,6 +77,7 @@ export default function ChatProfilePhoto({
           visibility: expanded ? "visible" : "hidden",
           opacity: expanded ? 1 : 0,
           height: expanded ? "auto" : "0px",
+          width: expanded ? "auto" : "0px",
           overflow: "auto",
         }}
       >
@@ -110,7 +112,14 @@ export default function ChatProfilePhoto({
           porttitor.
         </p>
         <button style={{position: "absolute", top: "2px", right: "2px", width: "1.5rem", height: "1.5rem"}} onClick={() => setExpanded(false)}>X</button>
-      </div>
-    </span>
+      </div> */}
+      </span>
+      <ExpandedProfile
+        profile={profile}
+        expanded={expanded}
+        setExpanded={setExpanded}
+        displayImg={displayImg}
+      />
+    </>
   );
 }

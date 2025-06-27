@@ -159,23 +159,25 @@ export default function Chat({
   }, [chatLog]);
 
   return (
-    <div
+    <div // chat page
       style={{
         display: "flex",
         flexDirection: "column",
         height: "100%",
       }}
     >
-      <div
+      <div // friend and user bar
         style={{
           display: "flex",
           gap: "5px",
           boxShadow: "0px 0px 4px black",
           zIndex: 4,
-          // backgroundColor: "#f2f4f4aa",
-          backgroundColor: "#e5e8e8",
+          // backgroundColor: "#e5e8e8",
           backgroundColor: "#f9e79f",
-          maxHeight: "5.4rem",
+          // height: "5rem",
+          minHeight: "4.8rem",
+          maxHeight: "4.8rem",
+          alignItems: "center"
         }}
       >
         <div id="friend-bar" style={{ flexGrow: 1 }}>
