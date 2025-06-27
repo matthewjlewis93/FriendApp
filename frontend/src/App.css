@@ -86,11 +86,12 @@ body {
   flex-direction: column;
   align-items: center;
   border: 2px solid;
-  width: calc(100svw - 8px);
-  height: calc(100svh - 8px);
+  padding: 2px;
   border-radius: 5px;
-  left: 2px;
-  top: 2px;
+  left: 4px;
+  top: 4px;
+  right: 4px;
+  bottom: 4px;
   background-color: var(--selected-friend-profile);
   color: var(--non-chat-text-color);
   transition-property: display, opacity;
