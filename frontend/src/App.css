@@ -9,11 +9,17 @@
   --registration-background: #f2f4f4;
   --non-chat-text-color: black;
   --selected-friend-profile: #aed6f1;
+  --friend-profile-info: #ffffff44;
+  --add-reaction-background: #283747;
+  --add-reaction-foreground: #f5b7b1;
 }
 [data-theme="dark"] {
   --chat-background: #212f3c;
   --non-chat-text-color: white;
   --selected-friend-profile: #21618c;
+  --friend-profile-info: #00000044;
+  --add-reaction-background: #f5b7b1;
+  --add-reaction-foreground: #283747;
 }
 
 html {

@@ -1,4 +1,4 @@
-export default function EditProfile ({profileData}) {
+export default function EditProfile ({profileData, setProfileData}) {
     const sendUpdate = async (e) => {
       e.preventDefault();
       const settingsForm = new FormData(e.target.form);

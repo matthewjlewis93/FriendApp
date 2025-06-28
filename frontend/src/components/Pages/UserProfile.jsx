@@ -22,12 +22,28 @@ export default function UserProfile({
   return (
     <div id="user-profile" style={{ color: "var(--non-chat-text-color)" }}>
       <div style={{ display: "flex", justifyContent: "right", gap: "20px" }}>
-        <button style={{ width: "fit-content" }} onClick={() => {setUserProfileContent(userProfileContent === "settings" ? "edit-profile" : "settings")}}>{userProfileContent === "settings" ? "Edit Profile": "Settings"}</button>
+        <button
+          style={{ width: "fit-content" }}
+          onClick={() => {
+            setUserProfileContent(
+              userProfileContent === "settings" ? "edit-profile" : "settings"
+            );
+          }}
+        >
+          {userProfileContent === "settings" ? "Edit Profile" : "Settings"}
+        </button>
         <button style={{ width: "fit-content" }} onClick={sendLogout}>
           Logout
         </button>
       </div>
-      {userProfileContent === "settings" ? <Settings theme={theme} setTheme={setTheme} /> : <EditProfile profileData={profileData} />}
+      {userProfileContent === "settings" ? (
+        <Settings theme={theme} setTheme={setTheme} />
+      ) : (
+        <EditProfile
+          profileData={profileData}
+          setProfileData={setProfileData}
+        />
+      )}
     </div>
   );
 }
