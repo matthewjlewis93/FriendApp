@@ -1,5 +1,3 @@
-// import {image} from "";
-
 import { useState, useEffect } from "react";
 import ExpandedProfile from "./ExpandedProfile";
 
